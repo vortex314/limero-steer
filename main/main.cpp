@@ -3,6 +3,7 @@
 #include <Mqtt.h>
 #include <MqttJson.h>
 #include <Sys.h>
+#include <System.h>
 #include <Wifi.h>
 #include <cJSON.h>
 #include <main_labels.h>
@@ -13,6 +14,7 @@ EventBus eb(4096, 1024);
 Log logger(256);
 
 LedBlinker led;
+System sys("system");
 Wifi wifi("wifi");
 Mqtt mqtt("mqtt", 1024);
 MqttJson gateway("gateway", 1024);
@@ -123,10 +125,21 @@ void setup() {
   Str password(60);
   password = "LievenMarletteEwoutRonald";
 
+  logger.setLogLevel('D');
+  eb.onAny().call([](Cbor &msg) {  // Log all events
+    Str str(256);
+    eb.log(str, msg);
+    INFO("%s", str.c_str());
+  });
+
+  sys.setup();
+
   wifi.setConfig(ssid, password, hostname);
   wifi.setup();
 
+  mqtt.setWifiId(wifi.id());
   mqtt.setup();
+
   gateway.setMqttId(mqtt.id());
   gateway.setup();
 
@@ -136,12 +149,6 @@ void setup() {
   led.setWifi(wifi.id());
   led.setup();
 
-  logger.setLogLevel('D');
-  eb.onAny().call([](Cbor &msg) {  // Log all events
-    Str str(256);
-    eb.log(str, msg);
-    DEBUG("%s", str.c_str());
-  });
   //  mqtt.setLog(true);
   jsontest();
 }
