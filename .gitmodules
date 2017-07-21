@@ -1,0 +1,9 @@
+[submodule "components/arduino-esp32"]
+	path = components/arduino-esp32
+	url = https://github.com/espressif/arduino-esp32.git
+[submodule "components/Common"]
+	path = components/Common
+	url = https://github.com/vortex314/Common.git
+[submodule "components/Ebos"]
+	path = components/Ebos
+	url = https://github.com/vortex314/Ebos.git
