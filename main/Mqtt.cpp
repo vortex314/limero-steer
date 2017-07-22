@@ -279,7 +279,7 @@ void Mqtt::subscribe(Cbor &cbor) {
     return;
   }
   Str topic(TOPIC_LENGTH);
-  int qos = 0;
+  int qos = 1;
   if (cbor.getKeyValue(H("topic"), topic)) {
     cbor.getKeyValue(H("qos"), qos);
     DEBUG(" topic : %s qos : %d ", topic.c_str(), qos);
@@ -289,7 +289,7 @@ void Mqtt::subscribe(Cbor &cbor) {
     } else {
       eb.reply().addKeyValue(H("error"), EFAULT);
       eb.send();
-      WARN("NOK OK : EFAULT");
+      WARN("NOT OK : EFAULT");
     }
   } else {
     eb.reply().addKeyValue(H("error"), EINVAL);

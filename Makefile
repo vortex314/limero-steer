@@ -6,7 +6,7 @@
 PROJECT_NAME := limero-steer
 TTY ?= USB0
 SERIAL_PORT ?= /dev/tty$(TTY)
-SERIAL_BAUD = 115200
+SERIAL_BAUD = 921600
 ESPBAUD = 921600
 IDF_PATH ?= /home/lieven/esp/esp-idf
 

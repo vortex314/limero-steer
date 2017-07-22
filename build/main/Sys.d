@@ -117,8 +117,8 @@ Sys.o: /home/lieven/workspace/limero-steer/main/./Sys.cpp \
  /home/lieven/esp/esp-idf/components/newlib/include/sys/errno.h \
  /home/lieven/workspace/limero-steer/components/Common/./Log.h \
  /home/lieven/workspace/limero-steer/components/Common/./Str.h \
- /home/lieven/workspace/limero-steer/components/Common/./Erc.h \
  /home/lieven/workspace/limero-steer/components/Common/./Bytes.h \
+ /home/lieven/workspace/limero-steer/components/Common/./Erc.h \
  /home/lieven/workspace/limero-steer/components/Common/./Sys.h
 
 /home/lieven/workspace/limero-steer/components/arduino-esp32/cores/esp32/Arduino.h:
@@ -357,9 +357,9 @@ Sys.o: /home/lieven/workspace/limero-steer/main/./Sys.cpp \
 
 /home/lieven/workspace/limero-steer/components/Common/./Str.h:
 
-/home/lieven/workspace/limero-steer/components/Common/./Erc.h:
-
 /home/lieven/workspace/limero-steer/components/Common/./Bytes.h:
+
+/home/lieven/workspace/limero-steer/components/Common/./Erc.h:
 
 /home/lieven/workspace/limero-steer/components/Common/./Sys.h:
 /home/lieven/workspace/limero-steer/main/./Sys.cpp:

@@ -1,476 +1,849 @@
-ets Jun  8 2016 00:22:57
-
-rst:0x10 (RTCWDT_RTC_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-configsip: 0, SPIWP:0xee
-clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-mode:DIO, clock div:2
-load:0x3fff0008,len:8
-load:0x3fff0010,len:4400
-load:0x40078000,len:11072
-load:0x40080000,len:252
-entry 0x40080034
-I (45) boot: ESP-IDF v3.0-dev-20-g9b955f4-dirty 2nd stage bootloader
-I (45) boot: compile time 21:35:46
-I (45) boot: Enabling RNG early entropy source...
-I (64) boot: SPI Speed      : 40MHz
-I (77) boot: SPI Mode       : DIO
-I (89) boot: SPI Flash Size : 4MB
-I (101) boot: Partition Table:
-I (113) boot: ## Label            Usage          Type ST Offset   Length
-I (135) boot:  0 nvs              WiFi data        01 02 00009000 00005000
-I (159) boot:  1 otadata          OTA data         01 00 0000e000 00002000
-I (182) boot:  2 app0             OTA app          00 10 00010000 00140000
-I (205) boot:  3 app1             OTA app          00 11 00150000 00140000
-I (228) boot:  4 spiffs           Unknown data     01 82 00290000 00170000
-I (252) boot: End of partition table
-I (265) boot: Disabling RNG early entropy source...
-I (282) boot: Loading app partition at offset 00010000
-I (1165) boot: segment 0: paddr=0x00010018 vaddr=0x00000000 size=0x0ffe8 ( 65512) 
-I (1166) boot: segment 1: paddr=0x00020008 vaddr=0x3f400010 size=0x0e4cc ( 58572) map
-I (1182) boot: segment 2: paddr=0x0002e4dc vaddr=0x3ffc0000 size=0x031c8 ( 12744) load
-I (1214) boot: segment 3: paddr=0x000316ac vaddr=0x40080000 size=0x00400 (  1024) load
-I (1236) boot: segment 4: paddr=0x00031ab4 vaddr=0x40080400 size=0x13358 ( 78680) load
-I (1299) boot: segment 5: paddr=0x00044e14 vaddr=0x400c0000 size=0x00000 (     0) load
-I (1300) boot: segment 6: paddr=0x00044e1c vaddr=0x00000000 size=0x0b1ec ( 45548) 
-I (1321) boot: segment 7: paddr=0x00050010 vaddr=0x400d0018 size=0x573f8 (357368) map
-I (1347) cpu_start: Pro cpu up.
-I (1358) cpu_start: Starting app cpu, entry point is 0x40080f04
-I (0) cpu_start: App cpu up.
-I (1391) heap_init: Initializing. RAM available for dynamic allocation:
-I (1412) heap_init: At 3FFAFF10 len 000000F0 (0 KiB): DRAM
-I (1431) heap_init: At 3FFC8D68 len 00017298 (92 KiB): DRAM
-I (1450) heap_init: At 3FFE0440 len 00003BC0 (14 KiB): D/IRAM
-I (1470) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
-I (1490) heap_init: At 40093758 len 0000C8A8 (50 KiB): IRAM
-I (1509) cpu_start: Pro cpu start user code
-I (1575) cpu_start: Starting scheduler on PRO CPU.
-I (200) cpu_start: Starting scheduler on APP CPU.
-I|63 ESP7C40A24 -|    Uid.cpp:  89 |  added 27 labels to 0 
+€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€I|63 ESP7C40A24 -|    Uid.cpp:  89 |  added 27 labels to 0 
 I|64 ESP7C40A24 -|    Uid.cpp:  89 |  added 90 labels to 27 
 D|65 ESP7C40A24 -|  Actor.cpp:  88 |  Actor 'wifi' state change '0' => 'disconnected'
-I (240) wifi: wifi firmware version: f092575
-I (243) wifi: config NVS flash: enabled
-I (246) wifi: config nano formating: disabled
-I (250) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
-I (260) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
-I (278) wifi: Init dynamic tx buffer num: 32
-I (278) wifi: Init dynamic rx buffer num: 32
-I (279) wifi: wifi driver task: 3ffd31c4, prio:23, stack:4096
-I (281) wifi: Init static rx buffer num: 10
-I (285) wifi: Init dynamic rx buffer num: 32
-I (289) wifi: Init rx ampdu len mblock:7
-I (292) wifi: Init lldesc rx ampdu entry mblock:4
-I (297) wifi: wifi power manager task: 0x3ffd84e4 prio: 21 stack: 2560
-I (306) wifi: wifi timer task: 3ffd953c, prio:22, stack:3584
-I (333) phy: phy_version: 355.1, 59464c5, Jun 14 2017, 20:25:06, 0, 0
-I (334) wifi: mode : sta (24:0a:c4:07:2a:b0)
-D|178 ESP7C40A24 -|  Actor.cpp:  88 |  Actor 'mqtt' state change '0' => 'disconnected'
-I|184 ESP7C40A24 -|    Uid.cpp:  89 |  added 52 labels to 87 
-I|191 ESP7C40A24 -|   main.cpp:  98 |  framerate : 24.000
-I|194 ESP7C40A24 -|   main.cpp:  99 |  pretty : {
+I (235) wifi: wifi firmware version: f092575
+I (235) wifi: config NVS flash: enabled
+I (235) wifi: config nano formating: disabled
+I (236) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (237) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (247) wifi: Init dynamic tx buffer num: 32
+I (247) wifi: Init dynamic rx buffer num: 32
+I (247) wifi: wifi driver task: 3ffd44b8, prio:23, stack:4096
+I (248) wifi: Init static rx buffer num: 10
+I (248) wifi: Init dynamic rx buffer num: 32
+I (248) wifi: Init rx ampdu len mblock:7
+I (249) wifi: Init lldesc rx ampdu entry mblock:4
+I (249) wifi: wifi power manager task: 0x3ffd981c prio: 21 stack: 2560
+I (253) wifi: wifi timer task: 3ffcd440, prio:22, stack:3584
+I (279) phy: phy_version: 355.1, 59464c5, Jun 14 2017, 20:25:06, 0, 0
+I (280) wifi: mode : sta (24:0a:c4:07:2a:b0)
+D|125 ESP7C40A24 -|  Actor.cpp:  88 |  Actor 'mqtt' state change '0' => 'disconnected'
+I|126 ESP7C40A24 -|    Uid.cpp:  89 |  added 57 labels to 87 
+I|127 ESP7C40A24 -|   main.cpp:  98 |  framerate : 24.000
+I|128 ESP7C40A24 -|   main.cpp:  99 |  pretty : {
 	"type":	"rect",
 	"height":	1080,
 	"interlace":	false,
 	"frame rate":	24
 } 
-I|205 ESP7C40A24 -|   main.cpp: 103 |  found number
-W|210 ESP7C40A24 -|   main.cpp: 166 |  slow  outside loop  :  210 msec
-I|217 ESP7C40A24 -|   main.cpp: 137 | (system)---setup >>  | id:0
-W|222 ESP7C40A24 -|   main.cpp: 166 |  slow  eventLoop  :  12 msec
-D|228 ESP7C40A24 -|   Wifi.cpp:  50 | Connecting to Merckx3 ... 
-I (512) wifi: n:1 1, o:1 0, ap:255 255, sta:1 1, prof:1
-I (1504) wifi: state: init -> auth (b0)
-I (1507) wifi: state: auth -> assoc (0)
-I (1512) wifi: state: assoc -> run (10)
-I (1525) wifi: connected with Merckx3, channel 1
-I (2242) event: ip: 192.168.0.122, mask: 255.255.255.0, gw: 192.168.0.1
-I|2135 ESP7C40A24 -|   Wifi.cpp:  58 |  wifi connected as host : 'ESP7C40A24' on SSID : 'Merckx3' 'LievenMarletteEwoutRonald' 
-D|2135 ESP7C40A24 -|  Actor.cpp:  88 |  Actor 'wifi' state change 'disconnected' => 'connected'
-W|2144 ESP7C40A24 -|   main.cpp: 166 |  slow  wifi loop :  1922 msec
-I|2151 ESP7C40A24 -|   main.cpp:  46 | L
-I|2154 ESP7C40A24 -|   main.cpp: 137 | (wifi)---disconnected >>  | id:1
-I|2161 ESP7C40A24 -|   main.cpp: 137 | (mqtt)---disconnected >>  | id:2
-I|2167 ESP7C40A24 -|   main.cpp: 137 | (wifi)---connected >>  | id:3
-I|2172 ESP7C40A24 -|   Mqtt.cpp:  73 |  wifi connected 
-I|2177 ESP7C40A24 -|   Mqtt.cpp: 168 |  Connecting to (limero.ddns.net : 1883) will (src/ESP7C40A24/system/alive : false) with clientId : ESP7C40A24 
-D|2241 ESP7C40A24 -|  Actor.cpp:  88 |  Actor 'mqtt' state change 'disconnected' => 'connected'
-W|2242 ESP7C40A24 -| EventBus.cpp: 278 |  slow Actor mqtt : 70 msec
-W|2245 ESP7C40A24 -|   main.cpp: 166 |  slow  eventLoop  :  78 msec
-I|2253 ESP7C40A24 -|   main.cpp: 137 | (mqtt)---connected >>  | id:4
-I|2259 ESP7C40A24 -|   main.cpp: 137 | (gateway)---subscribe-->(mqtt) | id:5 | topic:"dst/ESP7C40A24/#"
-D|2266 ESP7C40A24 -|   Mqtt.cpp: 285 |  topic : dst/ESP7C40A24/# qos : 0 
-W|2274 ESP7C40A24 -|   main.cpp: 166 |  slow  eventLoop  :  15 msec
-I|2282 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--subscribe---(mqtt) | id:5 | error:0
-I|6153 ESP7C40A24 -|   main.cpp:  58 | N
-I|7153 ESP7C40A24 -|   main.cpp:  52 | R
-I|11153 ESP7C40A24 -|   main.cpp:  58 | N
-I (11513) wifi: pm start, type:0
+I|129 ESP7C40A24 -|   main.cpp: 103 |  found number
+W|129 ESP7C40A24 -|   main.cpp: 166 |  slow  outside loop  :  129 msec
+I|131 ESP7C40A24 -|   main.cpp: 137 | (system)---setup >>  | id:0
+D|131 ESP7C40A24 -|   Wifi.cpp:  50 | Connecting to Merckx3 ... 
+I (410) wifi: n:1 1, o:1 0, ap:255 255, sta:1 1, prof:1
+I (1402) wifi: state: init -> auth (b0)
+I (1405) wifi: state: auth -> assoc (0)
+I (1410) wifi: state: assoc -> run (10)
+I (1423) wifi: connected with Merckx3, channel 1
+I (2240) event: ip: 192.168.0.122, mask: 255.255.255.0, gw: 192.168.0.1
+I|2133 ESP7C40A24 -|   Wifi.cpp:  58 |  wifi connected as host : 'ESP7C40A24' on SSID : 'Merckx3' 'LievenMarletteEwoutRonald' 
+D|2133 ESP7C40A24 -|  Actor.cpp:  88 |  Actor 'wifi' state change 'disconnected' => 'connected'
+W|2135 ESP7C40A24 -|   main.cpp: 166 |  slow  wifi loop :  2004 msec
+I|2136 ESP7C40A24 -|   main.cpp:  46 | L
+I|2137 ESP7C40A24 -|   main.cpp: 137 | (wifi)---disconnected >>  | id:1
+I|2138 ESP7C40A24 -|   main.cpp: 137 | (mqtt)---disconnected >>  | id:2
+I|2140 ESP7C40A24 -|   main.cpp: 137 | (wifi)---connected >>  | id:3
+I|2141 ESP7C40A24 -|   Mqtt.cpp:  73 |  wifi connected 
+I|2141 ESP7C40A24 -|   Mqtt.cpp: 168 |  Connecting to (limero.ddns.net : 1883) will (src/ESP7C40A24/system/alive : false) with clientId : ESP7C40A24 
+D|2184 ESP7C40A24 -|  Actor.cpp:  88 |  Actor 'mqtt' state change 'disconnected' => 'connected'
+W|2184 ESP7C40A24 -| EventBus.cpp: 278 |  slow Actor mqtt : 43 msec
+W|2185 ESP7C40A24 -|   main.cpp: 166 |  slow  eventLoop  :  45 msec
+I|2187 ESP7C40A24 -|   main.cpp: 137 | (mqtt)---connected >>  | id:4
+I|2189 ESP7C40A24 -|   main.cpp: 137 | (gateway)---subscribe-->(mqtt) | id:5 | topic:"dst/ESP7C40A24/#"
+D|2189 ESP7C40A24 -|   Mqtt.cpp: 285 |  topic : dst/ESP7C40A24/# qos : 1 
+I|2193 ESP7C40A24 -|   main.cpp: 137 | (gateway)---subscribe-->(mqtt) | id:6 | topic:"src/global/clock/epoch"
+D|2193 ESP7C40A24 -|   Mqtt.cpp: 285 |  topic : src/global/clock/epoch qos : 1 
+I|2199 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--subscribe---(mqtt) | id:5 | error:0
+I|2201 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--subscribe---(mqtt) | id:6 | error:0
+I|5066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:7 | data:"ESP7C40A24" | public:true
+I|5069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:8 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|5073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:8 | error:0
+I|5136 ESP7C40A24 -|   main.cpp:  58 | N
+I|6136 ESP7C40A24 -|   main.cpp:  52 | R
+I|9136 ESP7C40A24 -|   main.cpp:  58 | N
+I|10136 ESP7C40A24 -|   main.cpp:  46 | L
+I (11411) wifi: pm start, type:0
 
-I|12153 ESP7C40A24 -|   main.cpp:  46 | L
-I|16153 ESP7C40A24 -|   main.cpp:  58 | N
-I|17153 ESP7C40A24 -|   main.cpp:  52 | R
-I|21153 ESP7C40A24 -|   main.cpp:  58 | N
-I|22153 ESP7C40A24 -|   main.cpp:  46 | L
-I|26153 ESP7C40A24 -|   main.cpp:  58 | N
-I|27153 ESP7C40A24 -|   main.cpp:  52 | R
-I|31153 ESP7C40A24 -|   main.cpp:  58 | N
-I|32153 ESP7C40A24 -|   main.cpp:  46 | L
-I|36153 ESP7C40A24 -|   main.cpp:  58 | N
-I|37153 ESP7C40A24 -|   main.cpp:  52 | R
-I|41153 ESP7C40A24 -|   main.cpp:  58 | N
-I|42153 ESP7C40A24 -|   main.cpp:  46 | L
-I|46153 ESP7C40A24 -|   main.cpp:  58 | N
-I|47153 ESP7C40A24 -|   main.cpp:  52 | R
-I|51153 ESP7C40A24 -|   main.cpp:  58 | N
-I|52153 ESP7C40A24 -|   main.cpp:  46 | L
-I|56153 ESP7C40A24 -|   main.cpp:  58 | N
-I|57153 ESP7C40A24 -|   main.cpp:  52 | R
-I|61153 ESP7C40A24 -|   main.cpp:  58 | N
-I|62153 ESP7C40A24 -|   main.cpp:  46 | L
-I|66153 ESP7C40A24 -|   main.cpp:  58 | N
-I|67153 ESP7C40A24 -|   main.cpp:  52 | R
-I|71153 ESP7C40A24 -|   main.cpp:  58 | N
-I|72153 ESP7C40A24 -|   main.cpp:  46 | L
-I|76153 ESP7C40A24 -|   main.cpp:  58 | N
-I|77153 ESP7C40A24 -|   main.cpp:  52 | R
-I|81153 ESP7C40A24 -|   main.cpp:  58 | N
-I|82153 ESP7C40A24 -|   main.cpp:  46 | L
-I|86153 ESP7C40A24 -|   main.cpp:  58 | N
-I|87153 ESP7C40A24 -|   main.cpp:  52 | R
-I|91153 ESP7C40A24 -|   main.cpp:  58 | N
-I|92153 ESP7C40A24 -|   main.cpp:  46 | L
-I|96153 ESP7C40A24 -|   main.cpp:  58 | N
-I|97153 ESP7C40A24 -|   main.cpp:  52 | R
-I|101153 ESP7C40A24 -|   main.cpp:  58 | N
-I|102153 ESP7C40A24 -|   main.cpp:  46 | L
-I|106153 ESP7C40A24 -|   main.cpp:  58 | N
-I|107153 ESP7C40A24 -|   main.cpp:  52 | R
-I|111153 ESP7C40A24 -|   main.cpp:  58 | N
-I|112153 ESP7C40A24 -|   main.cpp:  46 | L
-I|116153 ESP7C40A24 -|   main.cpp:  58 | N
-I|117153 ESP7C40A24 -|   main.cpp:  52 | R
-I|121153 ESP7C40A24 -|   main.cpp:  58 | N
-I|122153 ESP7C40A24 -|   main.cpp:  46 | L
-I|126153 ESP7C40A24 -|   main.cpp:  58 | N
-I|127153 ESP7C40A24 -|   main.cpp:  52 | R
-I|131153 ESP7C40A24 -|   main.cpp:  58 | N
-I|132153 ESP7C40A24 -|   main.cpp:  46 | L
-I|136153 ESP7C40A24 -|   main.cpp:  58 | N
-I|137153 ESP7C40A24 -|   main.cpp:  52 | R
-I|141153 ESP7C40A24 -|   main.cpp:  58 | N
-I|142153 ESP7C40A24 -|   main.cpp:  46 | L
-I|146153 ESP7C40A24 -|   main.cpp:  58 | N
-I|147153 ESP7C40A24 -|   main.cpp:  52 | R
-I|151153 ESP7C40A24 -|   main.cpp:  58 | N
-I|152153 ESP7C40A24 -|   main.cpp:  46 | L
-I|156153 ESP7C40A24 -|   main.cpp:  58 | N
-I|157153 ESP7C40A24 -|   main.cpp:  52 | R
-I|161153 ESP7C40A24 -|   main.cpp:  58 | N
-I|162153 ESP7C40A24 -|   main.cpp:  46 | L
-I|166153 ESP7C40A24 -|   main.cpp:  58 | N
-I|167153 ESP7C40A24 -|   main.cpp:  52 | R
-I|171153 ESP7C40A24 -|   main.cpp:  58 | N
-I|172153 ESP7C40A24 -|   main.cpp:  46 | L
-I|176153 ESP7C40A24 -|   main.cpp:  58 | N
-I|177153 ESP7C40A24 -|   main.cpp:  52 | R
-I|181153 ESP7C40A24 -|   main.cpp:  58 | N
-I|182153 ESP7C40A24 -|   main.cpp:  46 | L
-I|186153 ESP7C40A24 -|   main.cpp:  58 | N
-I|187153 ESP7C40A24 -|   main.cpp:  52 | R
-I|191153 ESP7C40A24 -|   main.cpp:  58 | N
-I|192153 ESP7C40A24 -|   main.cpp:  46 | L
-I|196153 ESP7C40A24 -|   main.cpp:  58 | N
-I|197153 ESP7C40A24 -|   main.cpp:  52 | R
-I|201153 ESP7C40A24 -|   main.cpp:  58 | N
-I|202153 ESP7C40A24 -|   main.cpp:  46 | L
-I|206153 ESP7C40A24 -|   main.cpp:  58 | N
-I|207153 ESP7C40A24 -|   main.cpp:  52 | R
-I|211153 ESP7C40A24 -|   main.cpp:  58 | N
-I|212153 ESP7C40A24 -|   main.cpp:  46 | L
-I|213003 ESP7C40A24 -|   Mqtt.cpp: 179 |  message arrived : [dst/ESP7C40A24/system/now]
-I|213005 ESP7C40A24 -|   main.cpp: 137 | (mqtt)---published >>  | id:6 | topic:"dst/ESP7C40A24/system/now" | message:"1500734294"
-I|213011 ESP7C40A24 -| MqttJson.cpp: 213 |  fields : 17122 19704 12618 42003 
-I|213018 ESP7C40A24 -| MqttJson.cpp: 215 |  fields : dst ESP7C40A24 system now 
-W|213025 ESP7C40A24 -| EventBus.cpp: 278 |  slow Actor gateway : 14 msec
-W|213031 ESP7C40A24 -|   main.cpp: 166 |  slow  eventLoop  :  27 msec
-I|213039 ESP7C40A24 -|   main.cpp: 137 | (-)---set-->(system) | now:1500734294.000000
-I|213046 ESP7C40A24 -|   main.cpp: 137 | (-)<--set---(system) | error:0
-I|216153 ESP7C40A24 -|   main.cpp:  58 | N
-I|217153 ESP7C40A24 -|   main.cpp:  52 | R
-I|221153 ESP7C40A24 -|   main.cpp:  58 | N
-I|222153 ESP7C40A24 -|   main.cpp:  46 | L
-I|226153 ESP7C40A24 -|   main.cpp:  58 | N
-I|227153 ESP7C40A24 -|   main.cpp:  52 | R
-I|231153 ESP7C40A24 -|   main.cpp:  58 | N
-I|232153 ESP7C40A24 -|   main.cpp:  46 | L
-I|236153 ESP7C40A24 -|   main.cpp:  58 | N
-I|237153 ESP7C40A24 -|   main.cpp:  52 | R
-I|241153 ESP7C40A24 -|   main.cpp:  58 | N
-I|242153 ESP7C40A24 -|   main.cpp:  46 | L
-I|246153 ESP7C40A24 -|   main.cpp:  58 | N
-I|247153 ESP7C40A24 -|   main.cpp:  52 | R
-I|251153 ESP7C40A24 -|   main.cpp:  58 | N
-I|252153 ESP7C40A24 -|   main.cpp:  46 | L
-I|256153 ESP7C40A24 -|   main.cpp:  58 | N
-I|257153 ESP7C40A24 -|   main.cpp:  52 | R
-I|261153 ESP7C40A24 -|   main.cpp:  58 | N
-I|262153 ESP7C40A24 -|   main.cpp:  46 | L
-I|266153 ESP7C40A24 -|   main.cpp:  58 | N
-I|267153 ESP7C40A24 -|   main.cpp:  52 | R
-I|271153 ESP7C40A24 -|   main.cpp:  58 | N
-I|272153 ESP7C40A24 -|   main.cpp:  46 | L
-I|276153 ESP7C40A24 -|   main.cpp:  58 | N
-I|277153 ESP7C40A24 -|   main.cpp:  52 | R
-I|281153 ESP7C40A24 -|   main.cpp:  58 | N
-I|282153 ESP7C40A24 -|   main.cpp:  46 | L
-I|286153 ESP7C40A24 -|   main.cpp:  58 | N
-I|287153 ESP7C40A24 -|   main.cpp:  52 | R
-I|290712 ESP7C40A24 -|   Mqtt.cpp: 179 |  message arrived : [dst/ESP7C40A24/system/now]
-I|290714 ESP7C40A24 -|   main.cpp: 137 | (mqtt)---published >>  | id:7 | topic:"dst/ESP7C40A24/system/now" | message:"1500734294"
-I|290720 ESP7C40A24 -| MqttJson.cpp: 213 |  fields : 17122 19704 12618 42003 
-I|290727 ESP7C40A24 -| MqttJson.cpp: 215 |  fields : dst ESP7C40A24 system now 
-W|290734 ESP7C40A24 -| EventBus.cpp: 278 |  slow Actor gateway : 14 msec
-W|290740 ESP7C40A24 -|   main.cpp: 166 |  slow  eventLoop  :  27 msec
-I|290748 ESP7C40A24 -|   main.cpp: 137 | (-)---set-->(system) | now:1500734294.000000
-I|290755 ESP7C40A24 -|   main.cpp: 137 | (-)<--set---(system) | error:0
-I|291153 ESP7C40A24 -|   main.cpp:  58 | N
-I|292153 ESP7C40A24 -|   main.cpp:  46 | L
-I|296153 ESP7C40A24 -|   main.cpp:  58 | N
-I|297153 ESP7C40A24 -|   main.cpp:  52 | R
-I|301153 ESP7C40A24 -|   main.cpp:  58 | N
-I|302153 ESP7C40A24 -|   main.cpp:  46 | L
-I|306153 ESP7C40A24 -|   main.cpp:  58 | N
-I|307153 ESP7C40A24 -|   main.cpp:  52 | R
-I|311153 ESP7C40A24 -|   main.cpp:  58 | N
-I|312153 ESP7C40A24 -|   main.cpp:  46 | L
-I|316153 ESP7C40A24 -|   main.cpp:  58 | N
-I|317153 ESP7C40A24 -|   main.cpp:  52 | R
-I|321153 ESP7C40A24 -|   main.cpp:  58 | N
-I|322153 ESP7C40A24 -|   main.cpp:  46 | L
-I|326153 ESP7C40A24 -|   main.cpp:  58 | N
-I|327153 ESP7C40A24 -|   main.cpp:  52 | R
-I|331153 ESP7C40A24 -|   main.cpp:  58 | N
-I|332153 ESP7C40A24 -|   main.cpp:  46 | L
-I|336153 ESP7C40A24 -|   main.cpp:  58 | N
-I|337153 ESP7C40A24 -|   main.cpp:  52 | R
-I|341153 ESP7C40A24 -|   main.cpp:  58 | N
-I|342153 ESP7C40A24 -|   main.cpp:  46 | L
-I|346153 ESP7C40A24 -|   main.cpp:  58 | N
-I|347153 ESP7C40A24 -|   main.cpp:  52 | R
-I|351153 ESP7C40A24 -|   main.cpp:  58 | N
-I|352153 ESP7C40A24 -|   main.cpp:  46 | L
-I|356153 ESP7C40A24 -|   main.cpp:  58 | N
-I|357153 ESP7C40A24 -|   main.cpp:  52 | R
-I|361153 ESP7C40A24 -|   main.cpp:  58 | N
-I|362153 ESP7C40A24 -|   main.cpp:  46 | L
-I|366153 ESP7C40A24 -|   main.cpp:  58 | N
-I|367153 ESP7C40A24 -|   main.cpp:  52 | R
-I|371153 ESP7C40A24 -|   main.cpp:  58 | N
-I|372153 ESP7C40A24 -|   main.cpp:  46 | L
-I|376153 ESP7C40A24 -|   main.cpp:  58 | N
-I|377153 ESP7C40A24 -|   main.cpp:  52 | R
-I|381153 ESP7C40A24 -|   main.cpp:  58 | N
-I|382153 ESP7C40A24 -|   main.cpp:  46 | L
-I|386153 ESP7C40A24 -|   main.cpp:  58 | N
-I|387153 ESP7C40A24 -|   main.cpp:  52 | R
-I|391153 ESP7C40A24 -|   main.cpp:  58 | N
-I|392153 ESP7C40A24 -|   main.cpp:  46 | L
-I|396153 ESP7C40A24 -|   main.cpp:  58 | N
-I|397153 ESP7C40A24 -|   main.cpp:  52 | R
-I|401153 ESP7C40A24 -|   main.cpp:  58 | N
-I|402153 ESP7C40A24 -|   main.cpp:  46 | L
-I|406153 ESP7C40A24 -|   main.cpp:  58 | N
-I|407153 ESP7C40A24 -|   main.cpp:  52 | R
-I|411153 ESP7C40A24 -|   main.cpp:  58 | N
-I|412153 ESP7C40A24 -|   main.cpp:  46 | L
-I|416153 ESP7C40A24 -|   main.cpp:  58 | N
-I|417153 ESP7C40A24 -|   main.cpp:  52 | R
-I|421153 ESP7C40A24 -|   main.cpp:  58 | N
-I|422153 ESP7C40A24 -|   main.cpp:  46 | L
-I|426153 ESP7C40A24 -|   main.cpp:  58 | N
-I|427153 ESP7C40A24 -|   main.cpp:  52 | R
-I|427926 ESP7C40A24 -|   Mqtt.cpp: 179 |  message arrived : [dst/ESP7C40A24/system/now]
-I|427929 ESP7C40A24 -|   main.cpp: 137 | (mqtt)---published >>  | id:8 | topic:"dst/ESP7C40A24/system/now" | message:"1500734294"
-I|427935 ESP7C40A24 -| MqttJson.cpp: 213 |  fields : 17122 19704 12618 42003 
-I|427941 ESP7C40A24 -| MqttJson.cpp: 215 |  fields : dst ESP7C40A24 system now 
-W|427949 ESP7C40A24 -| EventBus.cpp: 278 |  slow Actor gateway : 14 msec
-W|427955 ESP7C40A24 -|   main.cpp: 166 |  slow  eventLoop  :  27 msec
-I|427963 ESP7C40A24 -|   main.cpp: 137 | (-)---set-->(system) | now:1500734294.000000
-I|427970 ESP7C40A24 -|   main.cpp: 137 | (-)<--set---(system) | error:0
-I|429931 ESP7C40A24 -|   Mqtt.cpp: 179 |  message arrived : [dst/ESP7C40A24/system/now]
-I|429933 ESP7C40A24 -|   main.cpp: 137 | (mqtt)---published >>  | id:9 | topic:"dst/ESP7C40A24/system/now" | message:"1500734294"
-I|429939 ESP7C40A24 -| MqttJson.cpp: 213 |  fields : 17122 19704 12618 42003 
-I|429946 ESP7C40A24 -| MqttJson.cpp: 215 |  fields : dst ESP7C40A24 system now 
-W|429953 ESP7C40A24 -| EventBus.cpp: 278 |  slow Actor gateway : 14 msec
-W|429959 ESP7C40A24 -|   main.cpp: 166 |  slow  eventLoop  :  27 msec
-I|429967 ESP7C40A24 -|   main.cpp: 137 | (-)---set-->(system) | now:1500734294.000000
-I|429974 ESP7C40A24 -|   main.cpp: 137 | (-)<--set---(system) | error:0
-I|431153 ESP7C40A24 -|   main.cpp:  58 | N
-I|431633 ESP7C40A24 -|   Mqtt.cpp: 179 |  message arrived : [dst/ESP7C40A24/system/now]
-I|431635 ESP7C40A24 -|   main.cpp: 137 | (mqtt)---published >>  | id:10 | topic:"dst/ESP7C40A24/system/now" | message:"1500734294"
-I|431642 ESP7C40A24 -| MqttJson.cpp: 213 |  fields : 17122 19704 12618 42003 
-I|431648 ESP7C40A24 -| MqttJson.cpp: 215 |  fields : dst ESP7C40A24 system now 
-W|431656 ESP7C40A24 -| EventBus.cpp: 278 |  slow Actor gateway : 15 msec
-W|431662 ESP7C40A24 -|   main.cpp: 166 |  slow  eventLoop  :  28 msec
-I|431670 ESP7C40A24 -|   main.cpp: 137 | (-)---set-->(system) | now:1500734294.000000
-I|431677 ESP7C40A24 -|   main.cpp: 137 | (-)<--set---(system) | error:0
-I|432153 ESP7C40A24 -|   main.cpp:  46 | L
-I|433037 ESP7C40A24 -|   Mqtt.cpp: 179 |  message arrived : [dst/ESP7C40A24/system/now]
-I|433039 ESP7C40A24 -|   main.cpp: 137 | (mqtt)---published >>  | id:11 | topic:"dst/ESP7C40A24/system/now" | message:"1500734294"
-I|433045 ESP7C40A24 -| MqttJson.cpp: 213 |  fields : 17122 19704 12618 42003 
-I|433052 ESP7C40A24 -| MqttJson.cpp: 215 |  fields : dst ESP7C40A24 system now 
-W|433059 ESP7C40A24 -| EventBus.cpp: 278 |  slow Actor gateway : 14 msec
-W|433065 ESP7C40A24 -|   main.cpp: 166 |  slow  eventLoop  :  27 msec
-I|433073 ESP7C40A24 -|   main.cpp: 137 | (-)---set-->(system) | now:1500734294.000000
-I|433080 ESP7C40A24 -|   main.cpp: 137 | (-)<--set---(system) | error:0
-I|436153 ESP7C40A24 -|   main.cpp:  58 | N
-I|437153 ESP7C40A24 -|   main.cpp:  52 | R
-I|441153 ESP7C40A24 -|   main.cpp:  58 | N
-I|442153 ESP7C40A24 -|   main.cpp:  46 | L
-I|446153 ESP7C40A24 -|   main.cpp:  58 | N
-I|447153 ESP7C40A24 -|   main.cpp:  52 | R
-I|451153 ESP7C40A24 -|   main.cpp:  58 | N
-I|452153 ESP7C40A24 -|   main.cpp:  46 | L
-I|456153 ESP7C40A24 -|   main.cpp:  58 | N
-I|457153 ESP7C40A24 -|   main.cpp:  52 | R
-I|461153 ESP7C40A24 -|   main.cpp:  58 | N
-I|462153 ESP7C40A24 -|   main.cpp:  46 | L
-I|466153 ESP7C40A24 -|   main.cpp:  58 | N
-I|467153 ESP7C40A24 -|   main.cpp:  52 | R
-I|471153 ESP7C40A24 -|   main.cpp:  58 | N
-I|472153 ESP7C40A24 -|   main.cpp:  46 | L
-I|476153 ESP7C40A24 -|   main.cpp:  58 | N
-I|477153 ESP7C40A24 -|   main.cpp:  52 | R
-I|481153 ESP7C40A24 -|   main.cpp:  58 | N
-I|482153 ESP7C40A24 -|   main.cpp:  46 | L
-I|486153 ESP7C40A24 -|   main.cpp:  58 | N
-I|487153 ESP7C40A24 -|   main.cpp:  52 | R
-I|491153 ESP7C40A24 -|   main.cpp:  58 | N
-I|492153 ESP7C40A24 -|   main.cpp:  46 | L
-I|496153 ESP7C40A24 -|   main.cpp:  58 | N
-I|497153 ESP7C40A24 -|   main.cpp:  52 | R
-I|501153 ESP7C40A24 -|   main.cpp:  58 | N
-I|502153 ESP7C40A24 -|   main.cpp:  46 | L
-I|506153 ESP7C40A24 -|   main.cpp:  58 | N
-I|507153 ESP7C40A24 -|   main.cpp:  52 | R
-I|511153 ESP7C40A24 -|   main.cpp:  58 | N
-I|512153 ESP7C40A24 -|   main.cpp:  46 | L
-I|516153 ESP7C40A24 -|   main.cpp:  58 | N
-I|517153 ESP7C40A24 -|   main.cpp:  52 | R
-I|521153 ESP7C40A24 -|   main.cpp:  58 | N
-I|522153 ESP7C40A24 -|   main.cpp:  46 | L
-I|526153 ESP7C40A24 -|   main.cpp:  58 | N
-I|527153 ESP7C40A24 -|   main.cpp:  52 | R
-I|531153 ESP7C40A24 -|   main.cpp:  58 | N
-I|532153 ESP7C40A24 -|   main.cpp:  46 | L
-I|536153 ESP7C40A24 -|   main.cpp:  58 | N
-I|537153 ESP7C40A24 -|   main.cpp:  52 | R
-I|541153 ESP7C40A24 -|   main.cpp:  58 | N
-I|542153 ESP7C40A24 -|   main.cpp:  46 | L
-I|546153 ESP7C40A24 -|   main.cpp:  58 | N
-I|547153 ESP7C40A24 -|   main.cpp:  52 | R
-I|551153 ESP7C40A24 -|   main.cpp:  58 | N
-I|552153 ESP7C40A24 -|   main.cpp:  46 | L
-I|556153 ESP7C40A24 -|   main.cpp:  58 | N
-I|557153 ESP7C40A24 -|   main.cpp:  52 | R
-I|561153 ESP7C40A24 -|   main.cpp:  58 | N
-I|562153 ESP7C40A24 -|   main.cpp:  46 | L
-I|566153 ESP7C40A24 -|   main.cpp:  58 | N
-I|567153 ESP7C40A24 -|   main.cpp:  52 | R
-I|571153 ESP7C40A24 -|   main.cpp:  58 | N
-I|572153 ESP7C40A24 -|   main.cpp:  46 | L
-I|576153 ESP7C40A24 -|   main.cpp:  58 | N
-I|577153 ESP7C40A24 -|   main.cpp:  52 | R
-I|581153 ESP7C40A24 -|   main.cpp:  58 | N
-I|582153 ESP7C40A24 -|   main.cpp:  46 | L
-I|586153 ESP7C40A24 -|   main.cpp:  58 | N
-I|587153 ESP7C40A24 -|   main.cpp:  52 | R
-I|591153 ESP7C40A24 -|   main.cpp:  58 | N
-I|592153 ESP7C40A24 -|   main.cpp:  46 | L
-I|596153 ESP7C40A24 -|   main.cpp:  58 | N
-I|597153 ESP7C40A24 -|   main.cpp:  52 | R
-I|601153 ESP7C40A24 -|   main.cpp:  58 | N
-I|602153 ESP7C40A24 -|   main.cpp:  46 | L
-I|606153 ESP7C40A24 -|   main.cpp:  58 | N
-I|607153 ESP7C40A24 -|   main.cpp:  52 | R
-I|611153 ESP7C40A24 -|   main.cpp:  58 | N
-I|612153 ESP7C40A24 -|   main.cpp:  46 | L
-I|616153 ESP7C40A24 -|   main.cpp:  58 | N
-I|617153 ESP7C40A24 -|   main.cpp:  52 | R
-I|621153 ESP7C40A24 -|   main.cpp:  58 | N
-I|622153 ESP7C40A24 -|   main.cpp:  46 | L
-I|626153 ESP7C40A24 -|   main.cpp:  58 | N
-I|627153 ESP7C40A24 -|   main.cpp:  52 | R
-I|631153 ESP7C40A24 -|   main.cpp:  58 | N
-I|632153 ESP7C40A24 -|   main.cpp:  46 | L
-I|636153 ESP7C40A24 -|   main.cpp:  58 | N
-I|637153 ESP7C40A24 -|   main.cpp:  52 | R
-I|641153 ESP7C40A24 -|   main.cpp:  58 | N
-I|642153 ESP7C40A24 -|   main.cpp:  46 | L
-I|646153 ESP7C40A24 -|   main.cpp:  58 | N
-I|647153 ESP7C40A24 -|   main.cpp:  52 | R
-I|651153 ESP7C40A24 -|   main.cpp:  58 | N
-I|652153 ESP7C40A24 -|   main.cpp:  46 | L
-I|656153 ESP7C40A24 -|   main.cpp:  58 | N
-I|657153 ESP7C40A24 -|   main.cpp:  52 | R
-I|661153 ESP7C40A24 -|   main.cpp:  58 | N
-I|662153 ESP7C40A24 -|   main.cpp:  46 | L
-I|666153 ESP7C40A24 -|   main.cpp:  58 | N
-I|667153 ESP7C40A24 -|   main.cpp:  52 | R
-I|671153 ESP7C40A24 -|   main.cpp:  58 | N
-I|672153 ESP7C40A24 -|   main.cpp:  46 | L
-I|676153 ESP7C40A24 -|   main.cpp:  58 | N
-I|677153 ESP7C40A24 -|   main.cpp:  52 | R
-I|681153 ESP7C40A24 -|   main.cpp:  58 | N
-I|682153 ESP7C40A24 -|   main.cpp:  46 | L
-I|686153 ESP7C40A24 -|   main.cpp:  58 | N
-I|687153 ESP7C40A24 -|   main.cpp:  52 | R
-I|691153 ESP7C40A24 -|   main.cpp:  58 | N
-I|692153 ESP7C40A24 -|   main.cpp:  46 | L
-I|696153 ESP7C40A24 -|   main.cpp:  58 | N
-I|697153 ESP7C40A24 -|   main.cpp:  52 | R
-I|701153 ESP7C40A24 -|   main.cpp:  58 | N
-I|702153 ESP7C40A24 -|   main.cpp:  46 | L
-I|706153 ESP7C40A24 -|   main.cpp:  58 | N
-I|707153 ESP7C40A24 -|   main.cpp:  52 | R
-I|711153 ESP7C40A24 -|   main.cpp:  58 | N
-I|712153 ESP7C40A24 -|   main.cpp:  46 | L
-I|716153 ESP7C40A24 -|   main.cpp:  58 | N
-I|717153 ESP7C40A24 -|   main.cpp:  52 | R
-I|721153 ESP7C40A24 -|   main.cpp:  58 | N
-I|722153 ESP7C40A24 -|   main.cpp:  46 | L
-I|726153 ESP7C40A24 -|   main.cpp:  58 | N
-I|727153 ESP7C40A24 -|   main.cpp:  52 | R
-I|731153 ESP7C40A24 -|   main.cpp:  58 | N
-I|732153 ESP7C40A24 -|   main.cpp:  46 | L
-I|736153 ESP7C40A24 -|   main.cpp:  58 | N
-I|737153 ESP7C40A24 -|   main.cpp:  52 | R
-I|741153 ESP7C40A24 -|   main.cpp:  58 | N
-I|742153 ESP7C40A24 -|   main.cpp:  46 | L
-I|746153 ESP7C40A24 -|   main.cpp:  58 | N
-I|747153 ESP7C40A24 -|   main.cpp:  52 | R
-I|751153 ESP7C40A24 -|   main.cpp:  58 | N
-I|752153 ESP7C40A24 -|   main.cpp:  46 | L
-I|756153 ESP7C40A24 -|   main.cpp:  58 | N
-I|757153 ESP7C40A24 -|   main.cpp:  52 | R
-I|761153 ESP7C40A24 -|   main.cpp:  58 | N
-I|762153 ESP7C40A24 -|   main.cpp:  46 | L
-I|766153 ESP7C40A24 -|   main.cpp:  58 | N
-I|767153 ESP7C40A24 -|   main.cpp:  52 | R
-I|771153 ESP7C40A24 -|   main.cpp:  58 | N
-I|772153 ESP7C40A24 -|   main.cpp:  46 | L
-I|776153 ESP7C40A24 -|   main.cpp:  58 | N
-I|777153 ESP7C40A24 -|   main.cpp:  52 | R
-I|781153 ESP7C40A24 -|   main.cpp:  58 | N
-I|782153 ESP7C40A24 -|   main.cpp:  46 | L
-I|786153 ESP7C40A24 -|   main.cpp:  58 | N
-I|787153 ESP7C40A24 -|   main.cpp:  52 | R
-I|791153 ESP7C40A24 -|   main.cpp:  58 | N
-I|792153 ESP7C40A24 -|   main.cpp:  46 | L
-I|796153 ESP7C40A24 -|   main.cpp:  58 | N
-I|797153 ESP7C40A24 -|   main.cpp:  52 | R
-I|801153 ESP7C40A24 -|   main.cpp:  58 | N
-I|802153 ESP7C40A24 -|   main.cpp:  46 | L
-I|806153 ESP7C40A24 -|   main.cpp:  58 | N
-I|807153 ESP7C40A24 -|   main.cpp:  52 | R
-I|811153 ESP7C40A24 -|   main.cpp:  58 | N
+I|13136 ESP7C40A24 -|   main.cpp:  58 | N
+I|14136 ESP7C40A24 -|   main.cpp:  52 | R
+I|17136 ESP7C40A24 -|   main.cpp:  58 | N
+I|18136 ESP7C40A24 -|   main.cpp:  46 | L
+I|21136 ESP7C40A24 -|   main.cpp:  58 | N
+I|22136 ESP7C40A24 -|   main.cpp:  52 | R
+I|25066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:9 | data:25065 | public:true
+I|25069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:10 | topic:"src/ESP7C40A24/system/upTime" | message:"25065"
+I|25073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:10 | error:0
+I|25136 ESP7C40A24 -|   main.cpp:  58 | N
+I|26136 ESP7C40A24 -|   main.cpp:  46 | L
+I|29136 ESP7C40A24 -|   main.cpp:  58 | N
+I|30136 ESP7C40A24 -|   main.cpp:  52 | R
+I|33136 ESP7C40A24 -|   main.cpp:  58 | N
+I|34136 ESP7C40A24 -|   main.cpp:  46 | L
+I|37136 ESP7C40A24 -|   main.cpp:  58 | N
+I|38136 ESP7C40A24 -|   main.cpp:  52 | R
+I|41136 ESP7C40A24 -|   main.cpp:  58 | N
+I|42136 ESP7C40A24 -|   main.cpp:  46 | L
+I|45136 ESP7C40A24 -|   main.cpp:  58 | N
+I|46136 ESP7C40A24 -|   main.cpp:  52 | R
+I|49136 ESP7C40A24 -|   main.cpp:  58 | N
+I|50136 ESP7C40A24 -|   main.cpp:  46 | L
+I|53136 ESP7C40A24 -|   main.cpp:  58 | N
+I|54136 ESP7C40A24 -|   main.cpp:  52 | R
+I|57136 ESP7C40A24 -|   main.cpp:  58 | N
+I|58136 ESP7C40A24 -|   main.cpp:  46 | L
+I|61136 ESP7C40A24 -|   main.cpp:  58 | N
+I|62136 ESP7C40A24 -|   main.cpp:  52 | R
+I|65066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:11 | data:152700 | public:true
+I|65069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:12 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|65072 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:12 | error:0
+I|65136 ESP7C40A24 -|   main.cpp:  58 | N
+I|66136 ESP7C40A24 -|   main.cpp:  46 | L
+I|69136 ESP7C40A24 -|   main.cpp:  58 | N
+I|70136 ESP7C40A24 -|   main.cpp:  52 | R
+I|73136 ESP7C40A24 -|   main.cpp:  58 | N
+I|74136 ESP7C40A24 -|   main.cpp:  46 | L
+I|77136 ESP7C40A24 -|   main.cpp:  58 | N
+I|78136 ESP7C40A24 -|   main.cpp:  52 | R
+I|81136 ESP7C40A24 -|   main.cpp:  58 | N
+I|82136 ESP7C40A24 -|   main.cpp:  46 | L
+I|85066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:13 | data:"ESP7C40A24" | public:true
+I|85069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:14 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|85072 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:14 | error:0
+I|85136 ESP7C40A24 -|   main.cpp:  58 | N
+I|86136 ESP7C40A24 -|   main.cpp:  52 | R
+I|89136 ESP7C40A24 -|   main.cpp:  58 | N
+I|90136 ESP7C40A24 -|   main.cpp:  46 | L
+I|93136 ESP7C40A24 -|   main.cpp:  58 | N
+I|94136 ESP7C40A24 -|   main.cpp:  52 | R
+I|97136 ESP7C40A24 -|   main.cpp:  58 | N
+I|98136 ESP7C40A24 -|   main.cpp:  46 | L
+I|101136 ESP7C40A24 -|   main.cpp:  58 | N
+I|102136 ESP7C40A24 -|   main.cpp:  52 | R
+I|105066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:15 | data:105065 | public:true
+I|105069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:16 | topic:"src/ESP7C40A24/system/upTime" | message:"105065"
+I|105073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:16 | error:0
+I|105136 ESP7C40A24 -|   main.cpp:  58 | N
+I|106136 ESP7C40A24 -|   main.cpp:  46 | L
+I|109136 ESP7C40A24 -|   main.cpp:  58 | N
+I|110136 ESP7C40A24 -|   main.cpp:  52 | R
+I|113136 ESP7C40A24 -|   main.cpp:  58 | N
+I|114136 ESP7C40A24 -|   main.cpp:  46 | L
+I|117136 ESP7C40A24 -|   main.cpp:  58 | N
+I|118136 ESP7C40A24 -|   main.cpp:  52 | R
+I|121136 ESP7C40A24 -|   main.cpp:  58 | N
+I|122136 ESP7C40A24 -|   main.cpp:  46 | L
+I|125136 ESP7C40A24 -|   main.cpp:  58 | N
+I|126136 ESP7C40A24 -|   main.cpp:  52 | R
+I|129136 ESP7C40A24 -|   main.cpp:  58 | N
+I|130136 ESP7C40A24 -|   main.cpp:  46 | L
+I|133136 ESP7C40A24 -|   main.cpp:  58 | N
+I|134136 ESP7C40A24 -|   main.cpp:  52 | R
+I|137136 ESP7C40A24 -|   main.cpp:  58 | N
+I|138136 ESP7C40A24 -|   main.cpp:  46 | L
+I|141136 ESP7C40A24 -|   main.cpp:  58 | N
+I|142136 ESP7C40A24 -|   main.cpp:  52 | R
+I|145066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:17 | data:152700 | public:true
+I|145069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:18 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|145073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:18 | error:0
+I|145136 ESP7C40A24 -|   main.cpp:  58 | N
+I|146136 ESP7C40A24 -|   main.cpp:  46 | L
+I|149136 ESP7C40A24 -|   main.cpp:  58 | N
+I|150136 ESP7C40A24 -|   main.cpp:  52 | R
+I|153136 ESP7C40A24 -|   main.cpp:  58 | N
+I|154136 ESP7C40A24 -|   main.cpp:  46 | L
+I|157136 ESP7C40A24 -|   main.cpp:  58 | N
+I|158136 ESP7C40A24 -|   main.cpp:  52 | R
+I|161136 ESP7C40A24 -|   main.cpp:  58 | N
+I|162136 ESP7C40A24 -|   main.cpp:  46 | L
+I|165066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:19 | data:"ESP7C40A24" | public:true
+I|165069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:20 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|165072 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:20 | error:0
+I|165136 ESP7C40A24 -|   main.cpp:  58 | N
+I|166136 ESP7C40A24 -|   main.cpp:  52 | R
+I|169136 ESP7C40A24 -|   main.cpp:  58 | N
+I|170136 ESP7C40A24 -|   main.cpp:  46 | L
+I|173136 ESP7C40A24 -|   main.cpp:  58 | N
+I|174136 ESP7C40A24 -|   main.cpp:  52 | R
+I|177136 ESP7C40A24 -|   main.cpp:  58 | N
+I|178136 ESP7C40A24 -|   main.cpp:  46 | L
+I|181136 ESP7C40A24 -|   main.cpp:  58 | N
+I|182136 ESP7C40A24 -|   main.cpp:  52 | R
+I|185066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:21 | data:185065 | public:true
+I|185069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:22 | topic:"src/ESP7C40A24/system/upTime" | message:"185065"
+I|185073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:22 | error:0
+I|185136 ESP7C40A24 -|   main.cpp:  58 | N
+I|186136 ESP7C40A24 -|   main.cpp:  46 | L
+I|189136 ESP7C40A24 -|   main.cpp:  58 | N
+I|190136 ESP7C40A24 -|   main.cpp:  52 | R
+I|193136 ESP7C40A24 -|   main.cpp:  58 | N
+I|194136 ESP7C40A24 -|   main.cpp:  46 | L
+I|197136 ESP7C40A24 -|   main.cpp:  58 | N
+I|198136 ESP7C40A24 -|   main.cpp:  52 | R
+I|201136 ESP7C40A24 -|   main.cpp:  58 | N
+I|202136 ESP7C40A24 -|   main.cpp:  46 | L
+I|205136 ESP7C40A24 -|   main.cpp:  58 | N
+I|206136 ESP7C40A24 -|   main.cpp:  52 | R
+I|209136 ESP7C40A24 -|   main.cpp:  58 | N
+I|210136 ESP7C40A24 -|   main.cpp:  46 | L
+I|213136 ESP7C40A24 -|   main.cpp:  58 | N
+I|214136 ESP7C40A24 -|   main.cpp:  52 | R
+I|217136 ESP7C40A24 -|   main.cpp:  58 | N
+I|218136 ESP7C40A24 -|   main.cpp:  46 | L
+I|221136 ESP7C40A24 -|   main.cpp:  58 | N
+I|222136 ESP7C40A24 -|   main.cpp:  52 | R
+I|225066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:23 | data:152700 | public:true
+I|225069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:24 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|225073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:24 | error:0
+I|225136 ESP7C40A24 -|   main.cpp:  58 | N
+I|226136 ESP7C40A24 -|   main.cpp:  46 | L
+I|229136 ESP7C40A24 -|   main.cpp:  58 | N
+I|230136 ESP7C40A24 -|   main.cpp:  52 | R
+I|233136 ESP7C40A24 -|   main.cpp:  58 | N
+I|234136 ESP7C40A24 -|   main.cpp:  46 | L
+I|237136 ESP7C40A24 -|   main.cpp:  58 | N
+I|238136 ESP7C40A24 -|   main.cpp:  52 | R
+I|241136 ESP7C40A24 -|   main.cpp:  58 | N
+I|242136 ESP7C40A24 -|   main.cpp:  46 | L
+I|245066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:25 | data:"ESP7C40A24" | public:true
+I|245069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:26 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|245073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:26 | error:0
+I|245136 ESP7C40A24 -|   main.cpp:  58 | N
+I|246136 ESP7C40A24 -|   main.cpp:  52 | R
+I|249136 ESP7C40A24 -|   main.cpp:  58 | N
+I|250136 ESP7C40A24 -|   main.cpp:  46 | L
+I|253136 ESP7C40A24 -|   main.cpp:  58 | N
+I|254136 ESP7C40A24 -|   main.cpp:  52 | R
+I|257136 ESP7C40A24 -|   main.cpp:  58 | N
+I|258136 ESP7C40A24 -|   main.cpp:  46 | L
+I|261136 ESP7C40A24 -|   main.cpp:  58 | N
+I|262136 ESP7C40A24 -|   main.cpp:  52 | R
+I|265066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:27 | data:265065 | public:true
+I|265069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:28 | topic:"src/ESP7C40A24/system/upTime" | message:"265065"
+I|265073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:28 | error:0
+I|265136 ESP7C40A24 -|   main.cpp:  58 | N
+I|266136 ESP7C40A24 -|   main.cpp:  46 | L
+I|269136 ESP7C40A24 -|   main.cpp:  58 | N
+I|270136 ESP7C40A24 -|   main.cpp:  52 | R
+I|273136 ESP7C40A24 -|   main.cpp:  58 | N
+I|274136 ESP7C40A24 -|   main.cpp:  46 | L
+I|277136 ESP7C40A24 -|   main.cpp:  58 | N
+I|278136 ESP7C40A24 -|   main.cpp:  52 | R
+I|281136 ESP7C40A24 -|   main.cpp:  58 | N
+I|282136 ESP7C40A24 -|   main.cpp:  46 | L
+I|285136 ESP7C40A24 -|   main.cpp:  58 | N
+I|286136 ESP7C40A24 -|   main.cpp:  52 | R
+I|289136 ESP7C40A24 -|   main.cpp:  58 | N
+I|290136 ESP7C40A24 -|   main.cpp:  46 | L
+I|293136 ESP7C40A24 -|   main.cpp:  58 | N
+I|294136 ESP7C40A24 -|   main.cpp:  52 | R
+I|297136 ESP7C40A24 -|   main.cpp:  58 | N
+I|298136 ESP7C40A24 -|   main.cpp:  46 | L
+I|301136 ESP7C40A24 -|   main.cpp:  58 | N
+I|302136 ESP7C40A24 -|   main.cpp:  52 | R
+I|305066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:29 | data:152700 | public:true
+I|305069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:30 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|305073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:30 | error:0
+I|305136 ESP7C40A24 -|   main.cpp:  58 | N
+I|306136 ESP7C40A24 -|   main.cpp:  46 | L
+I|309136 ESP7C40A24 -|   main.cpp:  58 | N
+I|310136 ESP7C40A24 -|   main.cpp:  52 | R
+I|313136 ESP7C40A24 -|   main.cpp:  58 | N
+I|314136 ESP7C40A24 -|   main.cpp:  46 | L
+I|317136 ESP7C40A24 -|   main.cpp:  58 | N
+I|318136 ESP7C40A24 -|   main.cpp:  52 | R
+I|321136 ESP7C40A24 -|   main.cpp:  58 | N
+I|322136 ESP7C40A24 -|   main.cpp:  46 | L
+I|325066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:31 | data:"ESP7C40A24" | public:true
+I|325069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:32 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|325072 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:32 | error:0
+I|325136 ESP7C40A24 -|   main.cpp:  58 | N
+I|326136 ESP7C40A24 -|   main.cpp:  52 | R
+I|329136 ESP7C40A24 -|   main.cpp:  58 | N
+I|330136 ESP7C40A24 -|   main.cpp:  46 | L
+I|333136 ESP7C40A24 -|   main.cpp:  58 | N
+I|334136 ESP7C40A24 -|   main.cpp:  52 | R
+I|337136 ESP7C40A24 -|   main.cpp:  58 | N
+I|338136 ESP7C40A24 -|   main.cpp:  46 | L
+I|341136 ESP7C40A24 -|   main.cpp:  58 | N
+I|342136 ESP7C40A24 -|   main.cpp:  52 | R
+I|345066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:33 | data:345065 | public:true
+I|345069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:34 | topic:"src/ESP7C40A24/system/upTime" | message:"345065"
+I|345073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:34 | error:0
+I|345136 ESP7C40A24 -|   main.cpp:  58 | N
+I|346136 ESP7C40A24 -|   main.cpp:  46 | L
+I|349136 ESP7C40A24 -|   main.cpp:  58 | N
+I|350136 ESP7C40A24 -|   main.cpp:  52 | R
+I|353136 ESP7C40A24 -|   main.cpp:  58 | N
+I|354136 ESP7C40A24 -|   main.cpp:  46 | L
+I|357136 ESP7C40A24 -|   main.cpp:  58 | N
+I|358136 ESP7C40A24 -|   main.cpp:  52 | R
+I|361136 ESP7C40A24 -|   main.cpp:  58 | N
+I|362136 ESP7C40A24 -|   main.cpp:  46 | L
+I|365136 ESP7C40A24 -|   main.cpp:  58 | N
+I|366136 ESP7C40A24 -|   main.cpp:  52 | R
+I|369136 ESP7C40A24 -|   main.cpp:  58 | N
+I|370136 ESP7C40A24 -|   main.cpp:  46 | L
+I|373136 ESP7C40A24 -|   main.cpp:  58 | N
+I|374136 ESP7C40A24 -|   main.cpp:  52 | R
+I|377136 ESP7C40A24 -|   main.cpp:  58 | N
+I|378136 ESP7C40A24 -|   main.cpp:  46 | L
+I|381136 ESP7C40A24 -|   main.cpp:  58 | N
+I|382136 ESP7C40A24 -|   main.cpp:  52 | R
+I|385066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:35 | data:152700 | public:true
+I|385069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:36 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|385073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:36 | error:0
+I|385136 ESP7C40A24 -|   main.cpp:  58 | N
+I|386136 ESP7C40A24 -|   main.cpp:  46 | L
+I|389136 ESP7C40A24 -|   main.cpp:  58 | N
+I|390136 ESP7C40A24 -|   main.cpp:  52 | R
+I|393136 ESP7C40A24 -|   main.cpp:  58 | N
+I|394136 ESP7C40A24 -|   main.cpp:  46 | L
+I|397136 ESP7C40A24 -|   main.cpp:  58 | N
+I|398136 ESP7C40A24 -|   main.cpp:  52 | R
+I|401136 ESP7C40A24 -|   main.cpp:  58 | N
+I|402136 ESP7C40A24 -|   main.cpp:  46 | L
+I|405066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:37 | data:"ESP7C40A24" | public:true
+I|405069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:38 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|405072 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:38 | error:0
+I|405136 ESP7C40A24 -|   main.cpp:  58 | N
+I|406136 ESP7C40A24 -|   main.cpp:  52 | R
+I|409136 ESP7C40A24 -|   main.cpp:  58 | N
+I|410136 ESP7C40A24 -|   main.cpp:  46 | L
+I|413136 ESP7C40A24 -|   main.cpp:  58 | N
+I|414136 ESP7C40A24 -|   main.cpp:  52 | R
+I|417136 ESP7C40A24 -|   main.cpp:  58 | N
+I|418136 ESP7C40A24 -|   main.cpp:  46 | L
+I|421136 ESP7C40A24 -|   main.cpp:  58 | N
+I|422136 ESP7C40A24 -|   main.cpp:  52 | R
+I|425066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:39 | data:425065 | public:true
+I|425069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:40 | topic:"src/ESP7C40A24/system/upTime" | message:"425065"
+I|425073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:40 | error:0
+I|425136 ESP7C40A24 -|   main.cpp:  58 | N
+I|426136 ESP7C40A24 -|   main.cpp:  46 | L
+I|429136 ESP7C40A24 -|   main.cpp:  58 | N
+I|430136 ESP7C40A24 -|   main.cpp:  52 | R
+I|433136 ESP7C40A24 -|   main.cpp:  58 | N
+I|434136 ESP7C40A24 -|   main.cpp:  46 | L
+I|437136 ESP7C40A24 -|   main.cpp:  58 | N
+I|438136 ESP7C40A24 -|   main.cpp:  52 | R
+I|441136 ESP7C40A24 -|   main.cpp:  58 | N
+I|442136 ESP7C40A24 -|   main.cpp:  46 | L
+I|445136 ESP7C40A24 -|   main.cpp:  58 | N
+I|446136 ESP7C40A24 -|   main.cpp:  52 | R
+I|449136 ESP7C40A24 -|   main.cpp:  58 | N
+I|450136 ESP7C40A24 -|   main.cpp:  46 | L
+I|453136 ESP7C40A24 -|   main.cpp:  58 | N
+I|454136 ESP7C40A24 -|   main.cpp:  52 | R
+I|457136 ESP7C40A24 -|   main.cpp:  58 | N
+I|458136 ESP7C40A24 -|   main.cpp:  46 | L
+I|461136 ESP7C40A24 -|   main.cpp:  58 | N
+I|462136 ESP7C40A24 -|   main.cpp:  52 | R
+I|465066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:41 | data:152700 | public:true
+I|465069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:42 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|465073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:42 | error:0
+I|465136 ESP7C40A24 -|   main.cpp:  58 | N
+I|466136 ESP7C40A24 -|   main.cpp:  46 | L
+I|469136 ESP7C40A24 -|   main.cpp:  58 | N
+I|470136 ESP7C40A24 -|   main.cpp:  52 | R
+I|473136 ESP7C40A24 -|   main.cpp:  58 | N
+I|474136 ESP7C40A24 -|   main.cpp:  46 | L
+I|477136 ESP7C40A24 -|   main.cpp:  58 | N
+I|478136 ESP7C40A24 -|   main.cpp:  52 | R
+I|481136 ESP7C40A24 -|   main.cpp:  58 | N
+I|482136 ESP7C40A24 -|   main.cpp:  46 | L
+I|485066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:43 | data:"ESP7C40A24" | public:true
+I|485069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:44 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|485072 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:44 | error:0
+I|485136 ESP7C40A24 -|   main.cpp:  58 | N
+I|486136 ESP7C40A24 -|   main.cpp:  52 | R
+I|489136 ESP7C40A24 -|   main.cpp:  58 | N
+I|490136 ESP7C40A24 -|   main.cpp:  46 | L
+I|493136 ESP7C40A24 -|   main.cpp:  58 | N
+I|494136 ESP7C40A24 -|   main.cpp:  52 | R
+I|497136 ESP7C40A24 -|   main.cpp:  58 | N
+I|498136 ESP7C40A24 -|   main.cpp:  46 | L
+I|501136 ESP7C40A24 -|   main.cpp:  58 | N
+I|502136 ESP7C40A24 -|   main.cpp:  52 | R
+I|505066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:45 | data:505065 | public:true
+I|505069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:46 | topic:"src/ESP7C40A24/system/upTime" | message:"505065"
+I|505073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:46 | error:0
+I|505136 ESP7C40A24 -|   main.cpp:  58 | N
+I|506136 ESP7C40A24 -|   main.cpp:  46 | L
+I|509136 ESP7C40A24 -|   main.cpp:  58 | N
+I|510136 ESP7C40A24 -|   main.cpp:  52 | R
+I|513136 ESP7C40A24 -|   main.cpp:  58 | N
+I|514136 ESP7C40A24 -|   main.cpp:  46 | L
+I|517136 ESP7C40A24 -|   main.cpp:  58 | N
+I|518136 ESP7C40A24 -|   main.cpp:  52 | R
+I|521136 ESP7C40A24 -|   main.cpp:  58 | N
+I|522136 ESP7C40A24 -|   main.cpp:  46 | L
+I|525136 ESP7C40A24 -|   main.cpp:  58 | N
+I|526136 ESP7C40A24 -|   main.cpp:  52 | R
+I|529136 ESP7C40A24 -|   main.cpp:  58 | N
+I|530136 ESP7C40A24 -|   main.cpp:  46 | L
+I|533136 ESP7C40A24 -|   main.cpp:  58 | N
+I|534136 ESP7C40A24 -|   main.cpp:  52 | R
+I|537136 ESP7C40A24 -|   main.cpp:  58 | N
+I|538136 ESP7C40A24 -|   main.cpp:  46 | L
+I|541136 ESP7C40A24 -|   main.cpp:  58 | N
+I|542136 ESP7C40A24 -|   main.cpp:  52 | R
+I|545066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:47 | data:152700 | public:true
+I|545069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:48 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|545073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:48 | error:0
+I|545136 ESP7C40A24 -|   main.cpp:  58 | N
+I|546136 ESP7C40A24 -|   main.cpp:  46 | L
+I|549136 ESP7C40A24 -|   main.cpp:  58 | N
+I|550136 ESP7C40A24 -|   main.cpp:  52 | R
+I|553136 ESP7C40A24 -|   main.cpp:  58 | N
+I|554136 ESP7C40A24 -|   main.cpp:  46 | L
+I|557136 ESP7C40A24 -|   main.cpp:  58 | N
+I|558136 ESP7C40A24 -|   main.cpp:  52 | R
+I|561136 ESP7C40A24 -|   main.cpp:  58 | N
+I|562136 ESP7C40A24 -|   main.cpp:  46 | L
+I|565066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:49 | data:"ESP7C40A24" | public:true
+I|565069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:50 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|565072 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:50 | error:0
+I|565136 ESP7C40A24 -|   main.cpp:  58 | N
+I|566136 ESP7C40A24 -|   main.cpp:  52 | R
+I|569136 ESP7C40A24 -|   main.cpp:  58 | N
+I|570136 ESP7C40A24 -|   main.cpp:  46 | L
+I|573136 ESP7C40A24 -|   main.cpp:  58 | N
+I|574137 ESP7C40A24 -|   main.cpp:  52 | R
+I|577137 ESP7C40A24 -|   main.cpp:  58 | N
+I|578137 ESP7C40A24 -|   main.cpp:  46 | L
+I|581137 ESP7C40A24 -|   main.cpp:  58 | N
+I|582137 ESP7C40A24 -|   main.cpp:  52 | R
+I|585066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:51 | data:585065 | public:true
+I|585069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:52 | topic:"src/ESP7C40A24/system/upTime" | message:"585065"
+I|585073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:52 | error:0
+I|585137 ESP7C40A24 -|   main.cpp:  58 | N
+I|586137 ESP7C40A24 -|   main.cpp:  46 | L
+I|589137 ESP7C40A24 -|   main.cpp:  58 | N
+I|590137 ESP7C40A24 -|   main.cpp:  52 | R
+I|593137 ESP7C40A24 -|   main.cpp:  58 | N
+I|594137 ESP7C40A24 -|   main.cpp:  46 | L
+I|597137 ESP7C40A24 -|   main.cpp:  58 | N
+I|598137 ESP7C40A24 -|   main.cpp:  52 | R
+I|601137 ESP7C40A24 -|   main.cpp:  58 | N
+I|602137 ESP7C40A24 -|   main.cpp:  46 | L
+I|605137 ESP7C40A24 -|   main.cpp:  58 | N
+I|606137 ESP7C40A24 -|   main.cpp:  52 | R
+I|609137 ESP7C40A24 -|   main.cpp:  58 | N
+I|610137 ESP7C40A24 -|   main.cpp:  46 | L
+I|613137 ESP7C40A24 -|   main.cpp:  58 | N
+I|614137 ESP7C40A24 -|   main.cpp:  52 | R
+I|617137 ESP7C40A24 -|   main.cpp:  58 | N
+I|618137 ESP7C40A24 -|   main.cpp:  46 | L
+I|621137 ESP7C40A24 -|   main.cpp:  58 | N
+I|622137 ESP7C40A24 -|   main.cpp:  52 | R
+I|625066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:53 | data:152700 | public:true
+I|625069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:54 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|625073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:54 | error:0
+I|625137 ESP7C40A24 -|   main.cpp:  58 | N
+I|626137 ESP7C40A24 -|   main.cpp:  46 | L
+I|629137 ESP7C40A24 -|   main.cpp:  58 | N
+I|630137 ESP7C40A24 -|   main.cpp:  52 | R
+I|633137 ESP7C40A24 -|   main.cpp:  58 | N
+I|634137 ESP7C40A24 -|   main.cpp:  46 | L
+I|637137 ESP7C40A24 -|   main.cpp:  58 | N
+I|638137 ESP7C40A24 -|   main.cpp:  52 | R
+I|641137 ESP7C40A24 -|   main.cpp:  58 | N
+I|642137 ESP7C40A24 -|   main.cpp:  46 | L
+I|645066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:55 | data:"ESP7C40A24" | public:true
+I|645069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:56 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|645073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:56 | error:0
+I|645137 ESP7C40A24 -|   main.cpp:  58 | N
+I|646137 ESP7C40A24 -|   main.cpp:  52 | R
+I|649137 ESP7C40A24 -|   main.cpp:  58 | N
+I|650137 ESP7C40A24 -|   main.cpp:  46 | L
+I|653137 ESP7C40A24 -|   main.cpp:  58 | N
+I|654137 ESP7C40A24 -|   main.cpp:  52 | R
+I|657137 ESP7C40A24 -|   main.cpp:  58 | N
+I|658137 ESP7C40A24 -|   main.cpp:  46 | L
+I|661137 ESP7C40A24 -|   main.cpp:  58 | N
+I|662137 ESP7C40A24 -|   main.cpp:  52 | R
+I|665066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:57 | data:665065 | public:true
+I|665069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:58 | topic:"src/ESP7C40A24/system/upTime" | message:"665065"
+I|665073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:58 | error:0
+I|665137 ESP7C40A24 -|   main.cpp:  58 | N
+I|666137 ESP7C40A24 -|   main.cpp:  46 | L
+I|669137 ESP7C40A24 -|   main.cpp:  58 | N
+I|670137 ESP7C40A24 -|   main.cpp:  52 | R
+I|673137 ESP7C40A24 -|   main.cpp:  58 | N
+I|674137 ESP7C40A24 -|   main.cpp:  46 | L
+I|677137 ESP7C40A24 -|   main.cpp:  58 | N
+I|678137 ESP7C40A24 -|   main.cpp:  52 | R
+I|681137 ESP7C40A24 -|   main.cpp:  58 | N
+I|682137 ESP7C40A24 -|   main.cpp:  46 | L
+I|685137 ESP7C40A24 -|   main.cpp:  58 | N
+I|686137 ESP7C40A24 -|   main.cpp:  52 | R
+I|689137 ESP7C40A24 -|   main.cpp:  58 | N
+I|690137 ESP7C40A24 -|   main.cpp:  46 | L
+I|693137 ESP7C40A24 -|   main.cpp:  58 | N
+I|694137 ESP7C40A24 -|   main.cpp:  52 | R
+I|697137 ESP7C40A24 -|   main.cpp:  58 | N
+I|698137 ESP7C40A24 -|   main.cpp:  46 | L
+I|701137 ESP7C40A24 -|   main.cpp:  58 | N
+I|702137 ESP7C40A24 -|   main.cpp:  52 | R
+I|705066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:59 | data:152700 | public:true
+I|705069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:60 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|705073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:60 | error:0
+I|705137 ESP7C40A24 -|   main.cpp:  58 | N
+I|706137 ESP7C40A24 -|   main.cpp:  46 | L
+I|709137 ESP7C40A24 -|   main.cpp:  58 | N
+I|710137 ESP7C40A24 -|   main.cpp:  52 | R
+I|713137 ESP7C40A24 -|   main.cpp:  58 | N
+I|714137 ESP7C40A24 -|   main.cpp:  46 | L
+I|717137 ESP7C40A24 -|   main.cpp:  58 | N
+I|718137 ESP7C40A24 -|   main.cpp:  52 | R
+I|721137 ESP7C40A24 -|   main.cpp:  58 | N
+I|722137 ESP7C40A24 -|   main.cpp:  46 | L
+I|725066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:61 | data:"ESP7C40A24" | public:true
+I|725069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:62 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|725073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:62 | error:0
+I|725137 ESP7C40A24 -|   main.cpp:  58 | N
+I|726137 ESP7C40A24 -|   main.cpp:  52 | R
+I|729137 ESP7C40A24 -|   main.cpp:  58 | N
+I|730137 ESP7C40A24 -|   main.cpp:  46 | L
+I|733137 ESP7C40A24 -|   main.cpp:  58 | N
+I|734137 ESP7C40A24 -|   main.cpp:  52 | R
+I|737137 ESP7C40A24 -|   main.cpp:  58 | N
+I|738137 ESP7C40A24 -|   main.cpp:  46 | L
+I|741137 ESP7C40A24 -|   main.cpp:  58 | N
+I|742137 ESP7C40A24 -|   main.cpp:  52 | R
+I|745066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:63 | data:745065 | public:true
+I|745069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:64 | topic:"src/ESP7C40A24/system/upTime" | message:"745065"
+I|745073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:64 | error:0
+I|745137 ESP7C40A24 -|   main.cpp:  58 | N
+I|746137 ESP7C40A24 -|   main.cpp:  46 | L
+I|749137 ESP7C40A24 -|   main.cpp:  58 | N
+I|750137 ESP7C40A24 -|   main.cpp:  52 | R
+I|753137 ESP7C40A24 -|   main.cpp:  58 | N
+I|754137 ESP7C40A24 -|   main.cpp:  46 | L
+I|757137 ESP7C40A24 -|   main.cpp:  58 | N
+I|758137 ESP7C40A24 -|   main.cpp:  52 | R
+I|761137 ESP7C40A24 -|   main.cpp:  58 | N
+I|762137 ESP7C40A24 -|   main.cpp:  46 | L
+I|765137 ESP7C40A24 -|   main.cpp:  58 | N
+I|766137 ESP7C40A24 -|   main.cpp:  52 | R
+I|769137 ESP7C40A24 -|   main.cpp:  58 | N
+I|770137 ESP7C40A24 -|   main.cpp:  46 | L
+I|773137 ESP7C40A24 -|   main.cpp:  58 | N
+I|774137 ESP7C40A24 -|   main.cpp:  52 | R
+I|777137 ESP7C40A24 -|   main.cpp:  58 | N
+I|778137 ESP7C40A24 -|   main.cpp:  46 | L
+I|781137 ESP7C40A24 -|   main.cpp:  58 | N
+I|782137 ESP7C40A24 -|   main.cpp:  52 | R
+I|785066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:65 | data:152700 | public:true
+I|785070 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:66 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|785074 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:66 | error:0
+I|785137 ESP7C40A24 -|   main.cpp:  58 | N
+I|786137 ESP7C40A24 -|   main.cpp:  46 | L
+I|789137 ESP7C40A24 -|   main.cpp:  58 | N
+I|790137 ESP7C40A24 -|   main.cpp:  52 | R
+I|793137 ESP7C40A24 -|   main.cpp:  58 | N
+I|794137 ESP7C40A24 -|   main.cpp:  46 | L
+I|797137 ESP7C40A24 -|   main.cpp:  58 | N
+I|798137 ESP7C40A24 -|   main.cpp:  52 | R
+I|801137 ESP7C40A24 -|   main.cpp:  58 | N
+I|802137 ESP7C40A24 -|   main.cpp:  46 | L
+I|805066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:67 | data:"ESP7C40A24" | public:true
+I|805069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:68 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|805072 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:68 | error:0
+I|805137 ESP7C40A24 -|   main.cpp:  58 | N
+I|806137 ESP7C40A24 -|   main.cpp:  52 | R
+I|809137 ESP7C40A24 -|   main.cpp:  58 | N
+I|810137 ESP7C40A24 -|   main.cpp:  46 | L
+I|813137 ESP7C40A24 -|   main.cpp:  58 | N
+I|814137 ESP7C40A24 -|   main.cpp:  52 | R
+I|817137 ESP7C40A24 -|   main.cpp:  58 | N
+I|818137 ESP7C40A24 -|   main.cpp:  46 | L
+I|821137 ESP7C40A24 -|   main.cpp:  58 | N
+I|822137 ESP7C40A24 -|   main.cpp:  52 | R
+I|825066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:69 | data:825065 | public:true
+I|825069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:70 | topic:"src/ESP7C40A24/system/upTime" | message:"825065"
+I|825073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:70 | error:0
+I|825137 ESP7C40A24 -|   main.cpp:  58 | N
+I|826137 ESP7C40A24 -|   main.cpp:  46 | L
+I|829137 ESP7C40A24 -|   main.cpp:  58 | N
+I|830137 ESP7C40A24 -|   main.cpp:  52 | R
+I|833137 ESP7C40A24 -|   main.cpp:  58 | N
+I|834137 ESP7C40A24 -|   main.cpp:  46 | L
+I|837137 ESP7C40A24 -|   main.cpp:  58 | N
+I|838137 ESP7C40A24 -|   main.cpp:  52 | R
+I|841137 ESP7C40A24 -|   main.cpp:  58 | N
+I|842137 ESP7C40A24 -|   main.cpp:  46 | L
+I|845137 ESP7C40A24 -|   main.cpp:  58 | N
+I|846137 ESP7C40A24 -|   main.cpp:  52 | R
+I|849137 ESP7C40A24 -|   main.cpp:  58 | N
+I|850137 ESP7C40A24 -|   main.cpp:  46 | L
+I|853137 ESP7C40A24 -|   main.cpp:  58 | N
+I|854137 ESP7C40A24 -|   main.cpp:  52 | R
+I|857137 ESP7C40A24 -|   main.cpp:  58 | N
+I|858137 ESP7C40A24 -|   main.cpp:  46 | L
+I|861137 ESP7C40A24 -|   main.cpp:  58 | N
+I|862137 ESP7C40A24 -|   main.cpp:  52 | R
+I|865066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:71 | data:152700 | public:true
+I|865069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:72 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|865073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:72 | error:0
+I|865137 ESP7C40A24 -|   main.cpp:  58 | N
+I|866137 ESP7C40A24 -|   main.cpp:  46 | L
+I|869137 ESP7C40A24 -|   main.cpp:  58 | N
+I|870137 ESP7C40A24 -|   main.cpp:  52 | R
+I|873137 ESP7C40A24 -|   main.cpp:  58 | N
+I|874137 ESP7C40A24 -|   main.cpp:  46 | L
+I|877137 ESP7C40A24 -|   main.cpp:  58 | N
+I|878137 ESP7C40A24 -|   main.cpp:  52 | R
+I|881137 ESP7C40A24 -|   main.cpp:  58 | N
+I|882137 ESP7C40A24 -|   main.cpp:  46 | L
+I|885066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:73 | data:"ESP7C40A24" | public:true
+I|885069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:74 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|885073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:74 | error:0
+I|885137 ESP7C40A24 -|   main.cpp:  58 | N
+I|886137 ESP7C40A24 -|   main.cpp:  52 | R
+I|889137 ESP7C40A24 -|   main.cpp:  58 | N
+I|890137 ESP7C40A24 -|   main.cpp:  46 | L
+I|893137 ESP7C40A24 -|   main.cpp:  58 | N
+I|894137 ESP7C40A24 -|   main.cpp:  52 | R
+I|897137 ESP7C40A24 -|   main.cpp:  58 | N
+I|898137 ESP7C40A24 -|   main.cpp:  46 | L
+I|901137 ESP7C40A24 -|   main.cpp:  58 | N
+I|902137 ESP7C40A24 -|   main.cpp:  52 | R
+I|905066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:75 | data:905065 | public:true
+I|905069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:76 | topic:"src/ESP7C40A24/system/upTime" | message:"905065"
+I|905073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:76 | error:0
+I|905137 ESP7C40A24 -|   main.cpp:  58 | N
+I|906137 ESP7C40A24 -|   main.cpp:  46 | L
+I|909137 ESP7C40A24 -|   main.cpp:  58 | N
+I|910137 ESP7C40A24 -|   main.cpp:  52 | R
+I|913137 ESP7C40A24 -|   main.cpp:  58 | N
+I|914137 ESP7C40A24 -|   main.cpp:  46 | L
+I|917137 ESP7C40A24 -|   main.cpp:  58 | N
+I|918137 ESP7C40A24 -|   main.cpp:  52 | R
+I|921137 ESP7C40A24 -|   main.cpp:  58 | N
+I|922137 ESP7C40A24 -|   main.cpp:  46 | L
+I|925137 ESP7C40A24 -|   main.cpp:  58 | N
+I|926137 ESP7C40A24 -|   main.cpp:  52 | R
+I|929137 ESP7C40A24 -|   main.cpp:  58 | N
+I|930137 ESP7C40A24 -|   main.cpp:  46 | L
+I|933137 ESP7C40A24 -|   main.cpp:  58 | N
+I|934137 ESP7C40A24 -|   main.cpp:  52 | R
+I|937137 ESP7C40A24 -|   main.cpp:  58 | N
+I|938137 ESP7C40A24 -|   main.cpp:  46 | L
+I|941137 ESP7C40A24 -|   main.cpp:  58 | N
+I|942137 ESP7C40A24 -|   main.cpp:  52 | R
+I|945066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:77 | data:152700 | public:true
+I|945069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:78 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|945073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:78 | error:0
+I|945137 ESP7C40A24 -|   main.cpp:  58 | N
+I|946137 ESP7C40A24 -|   main.cpp:  46 | L
+I|949137 ESP7C40A24 -|   main.cpp:  58 | N
+I|950137 ESP7C40A24 -|   main.cpp:  52 | R
+I|953137 ESP7C40A24 -|   main.cpp:  58 | N
+I|954137 ESP7C40A24 -|   main.cpp:  46 | L
+I|957137 ESP7C40A24 -|   main.cpp:  58 | N
+I|958137 ESP7C40A24 -|   main.cpp:  52 | R
+I|961137 ESP7C40A24 -|   main.cpp:  58 | N
+I|962137 ESP7C40A24 -|   main.cpp:  46 | L
+I|965066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:79 | data:"ESP7C40A24" | public:true
+I|965069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:80 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|965073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:80 | error:0
+I|965137 ESP7C40A24 -|   main.cpp:  58 | N
+I|966137 ESP7C40A24 -|   main.cpp:  52 | R
+I|969137 ESP7C40A24 -|   main.cpp:  58 | N
+I|970137 ESP7C40A24 -|   main.cpp:  46 | L
+I|973137 ESP7C40A24 -|   main.cpp:  58 | N
+I|974137 ESP7C40A24 -|   main.cpp:  52 | R
+I|977137 ESP7C40A24 -|   main.cpp:  58 | N
+I|978137 ESP7C40A24 -|   main.cpp:  46 | L
+I|981137 ESP7C40A24 -|   main.cpp:  58 | N
+I|982137 ESP7C40A24 -|   main.cpp:  52 | R
+I|985066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:81 | data:985065 | public:true
+I|985069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:82 | topic:"src/ESP7C40A24/system/upTime" | message:"985065"
+I|985073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:82 | error:0
+I|985137 ESP7C40A24 -|   main.cpp:  58 | N
+I|986137 ESP7C40A24 -|   main.cpp:  46 | L
+I|989137 ESP7C40A24 -|   main.cpp:  58 | N
+I|990137 ESP7C40A24 -|   main.cpp:  52 | R
+I|993137 ESP7C40A24 -|   main.cpp:  58 | N
+I|994137 ESP7C40A24 -|   main.cpp:  46 | L
+I|997137 ESP7C40A24 -|   main.cpp:  58 | N
+I|998137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1001137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1002137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1005137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1006137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1009137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1010137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1013137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1014137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1017137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1018137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1021137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1022137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1025066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:83 | data:152700 | public:true
+I|1025069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:84 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|1025073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:84 | error:0
+I|1025137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1026137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1029137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1030137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1033137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1034137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1037137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1038137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1041137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1042137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1045066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:85 | data:"ESP7C40A24" | public:true
+I|1045069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:86 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|1045072 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:86 | error:0
+I|1045137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1046137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1049137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1050137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1053137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1054137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1057137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1058137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1061137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1062137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1065066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:87 | data:1065065 | public:true
+I|1065069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:88 | topic:"src/ESP7C40A24/system/upTime" | message:"1065065"
+I|1065073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:88 | error:0
+I|1065137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1066137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1069137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1070137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1073137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1074137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1077137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1078137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1081137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1082137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1085137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1086137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1089137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1090137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1093137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1094137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1097137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1098137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1101137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1102137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1105066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:89 | data:152700 | public:true
+I|1105069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:90 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|1105073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:90 | error:0
+I|1105137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1106137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1109137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1110137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1113137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1114137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1117137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1118137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1121137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1122137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1125066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:91 | data:"ESP7C40A24" | public:true
+I|1125069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:92 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|1125071 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:92 | error:0
+I|1125137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1126137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1129137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1130137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1133137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1134137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1137137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1138137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1141137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1142137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1145066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:93 | data:1145065 | public:true
+I|1145069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:94 | topic:"src/ESP7C40A24/system/upTime" | message:"1145065"
+I|1145073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:94 | error:0
+I|1145137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1146137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1149137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1150137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1153137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1154137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1157137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1158137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1161137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1162137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1165137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1166137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1169137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1170137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1173137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1174137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1177137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1178137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1181137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1182137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1185066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:95 | data:152700 | public:true
+I|1185069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:96 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|1185073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:96 | error:0
+I|1185137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1186137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1189137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1190137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1193137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1194137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1197137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1198137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1201137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1202137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1205066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:97 | data:"ESP7C40A24" | public:true
+I|1205069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:98 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|1205071 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:98 | error:0
+I|1205137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1206137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1209137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1210137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1213137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1214137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1217137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1218137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1221137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1222137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1225066 ESP7C40A24 -|   main.cpp: 137 | (system)---upTime >>  | id:99 | data:1225065 | public:true
+I|1225069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:100 | topic:"src/ESP7C40A24/system/upTime" | message:"1225065"
+I|1225073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:100 | error:0
+I|1225137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1226137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1229137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1230137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1233137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1234137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1237137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1238137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1241137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1242137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1245137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1246137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1249137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1250137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1253137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1254137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1257137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1258137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1261137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1262137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1265066 ESP7C40A24 -|   main.cpp: 137 | (system)---heap >>  | id:101 | data:152700 | public:true
+I|1265069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:102 | topic:"src/ESP7C40A24/system/heap" | message:"152700"
+I|1265073 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:102 | error:0
+I|1265137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1266137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1269137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1270137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1273137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1274137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1277137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1278137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1281137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1282137 ESP7C40A24 -|   main.cpp:  46 | L
+I|1285066 ESP7C40A24 -|   main.cpp: 137 | (system)---hostname >>  | id:103 | data:"ESP7C40A24" | public:true
+I|1285069 ESP7C40A24 -|   main.cpp: 137 | (gateway)---publish-->(mqtt) | id:104 | topic:"src/ESP7C40A24/system/hostname" | message:""
+I|1285072 ESP7C40A24 -|   main.cpp: 137 | (gateway)<--publish---(mqtt) | id:104 | error:0
+I|1285137 ESP7C40A24 -|   main.cpp:  58 | N
+I|1286137 ESP7C40A24 -|   main.cpp:  52 | R
+I|1289137 ESP7C40A24 -|   main.cpp:  58 | N

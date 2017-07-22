@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "esp32-hal-misc.c": "cpp"
+        "esp32-hal-misc.c": "cpp",
+        "*.tcc": "cpp"
     }
 }

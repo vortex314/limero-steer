@@ -27,8 +27,8 @@ Cbor.o: /home/lieven/workspace/limero-steer/components/Common/./Cbor.cpp \
  /home/lieven/esp/esp-idf/components/newlib/include/alloca.h \
  /home/lieven/esp/esp-idf/components/newlib/include/assert.h \
  /home/lieven/workspace/limero-steer/components/Common/./Str.h \
- /home/lieven/workspace/limero-steer/components/Common/Sys.h \
  /home/lieven/workspace/limero-steer/components/Common/Log.h \
+ /home/lieven/workspace/limero-steer/components/Common/Sys.h \
  /home/lieven/workspace/limero-steer/components/Common/Str.h \
  /home/lieven/workspace/limero-steer/components/arduino-esp32/cores/esp32/Arduino.h \
  /home/lieven/esp/esp-idf/components/newlib/include/stdio.h \
@@ -179,9 +179,9 @@ Cbor.o: /home/lieven/workspace/limero-steer/components/Common/./Cbor.cpp \
 
 /home/lieven/workspace/limero-steer/components/Common/./Str.h:
 
-/home/lieven/workspace/limero-steer/components/Common/Sys.h:
-
 /home/lieven/workspace/limero-steer/components/Common/Log.h:
+
+/home/lieven/workspace/limero-steer/components/Common/Sys.h:
 
 /home/lieven/workspace/limero-steer/components/Common/Str.h:
 

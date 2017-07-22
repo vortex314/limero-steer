@@ -17,8 +17,8 @@ Log.o: /home/lieven/workspace/limero-steer/components/Common/./Log.cpp \
  /home/lieven/esp/esp-idf/components/newlib/include/machine/_types.h \
  /home/lieven/esp/esp-idf/components/newlib/include/sys/lock.h \
  /home/lieven/workspace/limero-steer/components/Common/Str.h \
- /home/lieven/workspace/limero-steer/components/Common/Erc.h \
  /home/lieven/workspace/limero-steer/components/Common/Bytes.h \
+ /home/lieven/workspace/limero-steer/components/Common/Erc.h \
  /home/lieven/workspace/limero-steer/components/Common/Sys.h \
  /home/lieven/esp/esp-idf/components/newlib/platform_include/assert.h \
  /home/lieven/workspace/limero-steer/build/include/sdkconfig.h \
@@ -157,9 +157,9 @@ Log.o: /home/lieven/workspace/limero-steer/components/Common/./Log.cpp \
 
 /home/lieven/workspace/limero-steer/components/Common/Str.h:
 
-/home/lieven/workspace/limero-steer/components/Common/Erc.h:
-
 /home/lieven/workspace/limero-steer/components/Common/Bytes.h:
+
+/home/lieven/workspace/limero-steer/components/Common/Erc.h:
 
 /home/lieven/workspace/limero-steer/components/Common/Sys.h:
 

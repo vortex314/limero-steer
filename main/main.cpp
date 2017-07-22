@@ -63,13 +63,13 @@ class Motor : public Actor {
   void onEvent(Cbor &msg) {
     if (state == 0) {
       turnLeft();
-      timeout(4000);
+      timeout(3000);
     } else if (state == 1) {
       neutral();
       timeout(1000);
     } else if (state == 2) {
       turnRight();
-      timeout(4000);
+      timeout(3000);
     } else {
       neutral();
       timeout(1000);
@@ -106,7 +106,7 @@ void jsontest() {
 
 #define LED_BUILTIN 2
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(921600);
 
   Sys::init();
   uid.add(labels, LABEL_COUNT);

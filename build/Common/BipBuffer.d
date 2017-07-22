@@ -26,8 +26,8 @@ BipBuffer.o: \
  /home/lieven/workspace/limero-steer/components/Common/Log.h \
  /home/lieven/workspace/limero-steer/components/Common/Sys.h \
  /home/lieven/workspace/limero-steer/components/Common/Str.h \
- /home/lieven/workspace/limero-steer/components/Common/Erc.h \
  /home/lieven/workspace/limero-steer/components/Common/Bytes.h \
+ /home/lieven/workspace/limero-steer/components/Common/Erc.h \
  /home/lieven/esp/esp-idf/components/newlib/platform_include/assert.h \
  /home/lieven/workspace/limero-steer/build/include/sdkconfig.h \
  /home/lieven/esp/esp-idf/components/newlib/include/stdlib.h \
@@ -179,9 +179,9 @@ BipBuffer.o: \
 
 /home/lieven/workspace/limero-steer/components/Common/Str.h:
 
-/home/lieven/workspace/limero-steer/components/Common/Erc.h:
-
 /home/lieven/workspace/limero-steer/components/Common/Bytes.h:
+
+/home/lieven/workspace/limero-steer/components/Common/Erc.h:
 
 /home/lieven/esp/esp-idf/components/newlib/platform_include/assert.h:
 
