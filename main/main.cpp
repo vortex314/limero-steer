@@ -98,6 +98,10 @@ void jsontest() {
     INFO(" framerate : %f", framerate);
     INFO(" pretty : %s ", output);
   }
+  cJSON *field = cJSON_Parse("1234.6");
+  if ( field->type == cJSON_Number) {
+    INFO(" found number");
+  }
 }
 
 #define LED_BUILTIN 2
@@ -106,6 +110,7 @@ void setup() {
 
   Sys::init();
   uid.add(labels, LABEL_COUNT);
+  eb.setup();
   Str hostname(40);
   char hn[20];
   sprintf(hn, "ESP%X", (uint32_t)ESP.getEfuseMac());  // The chip ID is
@@ -153,8 +158,31 @@ void setup() {
   jsontest();
 }
 
+void measure(const char *s) {
+  static uint64_t startTime;
+  uint32_t delta;
+  delta = Sys::millis() - startTime;
+  startTime = Sys::millis();
+  if (delta > 10) WARN(" slow %s :  %d msec", s, delta);
+}
+
+extern "C" {
+#include <esp_task_wdt.h>
+}
+
 void loop() {
+  measure(" outside loop ");
+
   eb.eventLoop();
+  measure(" eventLoop ");
+
   wifi.loop();
+  measure(" wifi loop");
+
   mqtt.loop();
+  measure("mqtt loop");
+
+  vTaskDelay(1);
+
+//  esp_task_wdt_feed();
 }

@@ -14,10 +14,25 @@
  */
 char Sys::_hostname[30];
 uint64_t Sys::_boot_time = 0;
+uint32_t lastMicros=0;
+uint32_t highPart=0;
+
+uint64_t Sys::micros() {
+uint32_t currentMicros = ::micros();
+	if ( currentMicros < lastMicros ) {
+		highPart++;
+	}
+	lastMicros = currentMicros;
+	uint64_t _micros = highPart;
+	_micros  <<=  32;
+	_micros += currentMicros;
+	return _micros;
+}
 
 uint64_t Sys::millis()
 {
-	return ::millis();
+	::millis();
+	return micros()/1000;
 }
 
 uint64_t Sys::now()

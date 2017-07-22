@@ -45,7 +45,7 @@ void LedBlinker::onEvent(Cbor& cbor) {
   } else if (eb.isEvent(_wifi, H("connected"))) {
     setInterval(100);
   } else if (eb.isEvent(_wifi, H("disconnected"))) {
-    setInterval(10);
+    setInterval(50);
   } else if (eb.isEvent(_mqtt, H("connected"))) {
     setInterval(1000);
   } else if (eb.isEvent(_mqtt, H("disconnected"))) {

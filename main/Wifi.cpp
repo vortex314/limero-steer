@@ -19,15 +19,14 @@ void Wifi::init() {
 }
 
 void Wifi::switchState(int st) {
+  state(st);
   if (st != Actor::state()) {
     Actor::state(st);
     if (st == H("connected")) {
-      INFO(" Wifi Connected.");
-      INFO(" ip : %s ", WiFi.localIP().toString().c_str());
+      INFO(" wifi connected ip : %s ", WiFi.localIP().toString().c_str());
       eb.event(id(), H("connected"));
       eb.send();
     } else {
-      WARN(" Wifi Disconnected.");
       eb.event(id(), H("disconnected"));
       eb.send();
     }
@@ -58,7 +57,7 @@ void Wifi::loop() {
       INFO(" wifi connected as host : '%s' on SSID : '%s' '%s' ", getHostname(),
            getSSID(), getPassword());
   }
-  switchState(WiFi.status() == WL_CONNECTED ? H("connected")
+  state(WiFi.status() == WL_CONNECTED ? H("connected")
                                             : H("disconnected"));
 }
 

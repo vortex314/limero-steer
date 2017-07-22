@@ -48,6 +48,7 @@ void Mqtt::setup() {
   state(H("disconnected"));
 
   eb.onDst(id()).call(this);
+  eb.onSrc(id()).call(this);
   eb.onEvent(_wifiId, EB_UID_ANY).call(this);
   //	eb.onRequest(H("mqtt"),H("publish")).call(this,(MethodHandler)&Mqtt::publish);
   //	eb.onRequest(H("mqtt"),H("subscribe")).call(this,(MethodHandler)&Mqtt::subscribe);
@@ -102,13 +103,9 @@ void Mqtt::loop() {
     _client_state = _client->state();
     if (_client_state == MQTT_CONNECTED) {
       state(H("connected"));
-      DEBUG(" state changed : %s ", uid.label(state()));
     } else {
       state(H("disconnected"));
-      DEBUG(" state changed : %s ", uid.label(state()));
     }
-    eb.event(id(), state());
-    eb.send();
   }
 }
 //--------------------------------------------------------------------------------------------------------
@@ -172,11 +169,9 @@ void Mqtt::connect() {
   if (_client->connect(_clientId.c_str(), _user.c_str(), _password.c_str(),
                        _willTopic.c_str(), _willQos, _willRetain,
                        _willMessage.c_str())) {
-    eb.event(id(), H("connected"));
-    eb.send();
+    state(H("connected"));
   } else {
-    eb.event(id(), H("disconnected"));
-    eb.send();
+    state(H("disconnected"));
   }
 }
 //--------------------------------------------------------------------------------------------------------
