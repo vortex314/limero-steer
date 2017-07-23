@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 Uid uid(200);
-EventBus eb(4096, 1024);
+EventBus eb(32000, 1024);
 Log logger(256);
 
 LedBlinker led;
@@ -81,29 +81,6 @@ class Motor : public Actor {
 
 Motor motor;
 
-void jsontest() {
-  char jsonLine[] =
-      "{    \"name\": \"Jack (\\\"Bee\\\") Nimble\",    \"format\": {        "
-      "\"type\":       \"rect\",        \"width\":      1920,        "
-      "\"height\":     "
-      "1080,        \"interlace\":  false,        \"frame rate\": 24    }}";
-  cJSON *root = cJSON_Parse(jsonLine);
-  cJSON *format = cJSON_GetObjectItem(root, "format");
-  cJSON *framerate_item = cJSON_GetObjectItem(format, "frame rate");
-  double framerate = 0;
-  cJSON_DeleteItemFromObject(format, "width");
-  char *output = cJSON_PrintBuffered(format, 100, 1);
-  if (framerate_item->type == cJSON_Number) {
-    framerate = framerate_item->valuedouble;
-    INFO(" framerate : %f", framerate);
-    INFO(" pretty : %s ", output);
-  }
-  cJSON *field = cJSON_Parse("1234.6");
-  if ( field->type == cJSON_Number) {
-    INFO(" found number");
-  }
-}
-
 #define LED_BUILTIN 2
 void setup() {
   Serial.begin(921600);
@@ -130,11 +107,11 @@ void setup() {
   Str password(60);
   password = "LievenMarletteEwoutRonald";
 
-  logger.setLogLevel('D');
+  logger.setLogLevel('I');
   eb.onAny().call([](Cbor &msg) {  // Log all events
     Str str(256);
     eb.log(str, msg);
-    INFO("%s", str.c_str());
+    DEBUG("%s", str.c_str());
   });
 
   sys.setup();
@@ -153,9 +130,6 @@ void setup() {
   led.setMqtt(mqtt.id());
   led.setWifi(wifi.id());
   led.setup();
-
-  //  mqtt.setLog(true);
-  jsontest();
 }
 
 void measure(const char *s) {
@@ -163,7 +137,7 @@ void measure(const char *s) {
   uint32_t delta;
   delta = Sys::millis() - startTime;
   startTime = Sys::millis();
-  if (delta > 10) WARN(" slow %s :  %d msec", s, delta);
+  if (delta > 20) WARN(" slow %s :  %d msec", s, delta);
 }
 
 extern "C" {
@@ -184,5 +158,5 @@ void loop() {
 
   vTaskDelay(1);
 
-//  esp_task_wdt_feed();
+  //  esp_task_wdt_feed();
 }

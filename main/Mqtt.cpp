@@ -4,7 +4,10 @@
 
 #include <fcntl.h>
 #include <unistd.h>
+#include "Property.h"
 Mqtt *Mqtt::_thisMqtt;
+
+static uint32_t rcvCounter = 0;
 //--------------------------------------------------------------------------------------------------------
 Mqtt::Mqtt(const char *name, uint32_t maxSize)
     : Actor(name),
@@ -24,6 +27,8 @@ Mqtt::Mqtt(const char *name, uint32_t maxSize)
       _topic(TOPIC_LENGTH),
       _message(maxSize) {
   _lastSrc = 0;
+  uid.create("rcv");
+  Property<uint32_t>::build(rcvCounter, id(), H("rcv"), 2000);
   _thisMqtt = this;
 }
 //--------------------------------------------------------------------------------------------------------
@@ -177,11 +182,12 @@ void Mqtt::connect() {
 //--------------------------------------------------------------------------------------------------------
 void Mqtt::callback(char *topic, byte *message, uint32_t length) {
   INFO(" message arrived : [%s]", topic);
+  rcvCounter++;
   Str tpc(topic);
   Str msg(message, length);
   eb.event(_thisMqtt->id(), H("published"))
       .addKeyValue(H("topic"), tpc)
-      .addKeyValue(H("message"), msg);  // TODO make H("mqtt") dynamic on name
+      .addKeyValue(H("message"), msg);
   eb.send();
 }
 //--------------------------------------------------------------------------------------------------------
